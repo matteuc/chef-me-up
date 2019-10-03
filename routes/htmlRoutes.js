@@ -53,7 +53,7 @@ module.exports = function(app) {
     })
   );
   app.get("/auth/google/callback", passport.authenticate("google"), function(req, res) {
-    res.json("keep it a secret");
+    res.json(req.user);
   });
 
   // Secret route
