@@ -1,0 +1,61 @@
+body {
+    font-family: 'Lato', sans-serif;
+}
+
+.navbar {
+    position: relative;
+    height: 70px;
+}
+.navbar-brand {
+    position: absolute;
+    left: 50%;
+    margin-left: -150px !important;  /* 50% of your logo width */
+    display: block;
+    padding-top: 0
+}
+
+.nav-tabs {
+    border-bottom: none;
+}
+
+.nav-tabs .nav-link {
+    border-top-left-radius: .5rem;
+    border-top-right-radius: .5rem;
+}
+
+.nav-tabs .nav-link.active {
+    background-color:  #F26400 ;
+    border-color: #F26400 ;
+}
+
+.nav-tabs .nav-link.active:hover {
+    background-color:  #F26400 ;
+    border-color: #F26400 ;
+}
+
+.nav-tabs .nav-link:hover {
+    border-color:  #F4802E;
+    background-color:  #F4802E;
+
+}
+
+#dash_tabs {
+    margin-bottom: 20px;
+
+}
+
+body {
+    background-color: #F4802E;
+}
+
+a {
+    color: white;
+}
+
+a:hover {
+    color: black;
+}
+
+[data-link] {
+    cursor: pointer;
+  }

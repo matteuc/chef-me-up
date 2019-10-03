@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "Ymcninja9810308991$",
-    "database": "exampledb",
+    "database": "chefmeup",
     "host": "localhost",
     "dialect": "mysql"
   },
