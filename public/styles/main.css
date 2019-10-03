@@ -1,3 +1,8 @@
+:root {
+    --main-bg-color: rgb(250, 231, 217);
+    --main-nav-color: rgb(250, 159, 94);
+}
+
 body {
     font-family: 'Lato', sans-serif;
 }
@@ -5,17 +10,26 @@ body {
 .navbar {
     position: relative;
     height: 70px;
+    background-color: var(--main-nav-color);
 }
 .navbar-brand {
     position: absolute;
     left: 50%;
-    margin-left: -150px !important;  /* 50% of your logo width */
+    margin-left: -71.5px !important;  /* 50% of your logo width */
     display: block;
     padding-top: 0
 }
 
+#logo {
+    margin-top: 10px;
+    height: 60px;
+    width: auto;
+}
+
 .nav-tabs {
     border-bottom: none;
+    background-color: var(--main-nav-color);
+
 }
 
 .nav-tabs .nav-link {
@@ -24,18 +38,18 @@ body {
 }
 
 .nav-tabs .nav-link.active {
-    background-color:  #F26400 ;
-    border-color: #F26400 ;
+    background-color:  var(--main-bg-color) ;
+    border-color: var(--main-bg-color) ;
 }
 
 .nav-tabs .nav-link.active:hover {
-    background-color:  #F26400 ;
-    border-color: #F26400 ;
+    background-color:  var(--main-bg-color) ;
+    border-color: var(--main-bg-color);
 }
 
 .nav-tabs .nav-link:hover {
-    border-color:  #F4802E;
-    background-color:  #F4802E;
+    border-color:  var(--main-nav-color);
+    background-color:  var(--main-nav-color);
 
 }
 
@@ -45,7 +59,7 @@ body {
 }
 
 body {
-    background-color: #F4802E;
+    background-color: var(--main-bg-color);
 }
 
 a {
@@ -59,3 +73,8 @@ a:hover {
 [data-link] {
     cursor: pointer;
   }
+
+.dash-tab {
+    font-size: 1.5em;
+}
+

@@ -1,6 +1,10 @@
 require("dotenv").config();
 var express = require("express");
 var exphbs = require("express-handlebars");
+var passport = require("passport");
+var auth = require("./config/auth");
+var cookieParser = require("cookie-parser");
+var cookieSession = require("cookie-session");
 
 var db = require("./models");
 
@@ -11,6 +15,15 @@ var PORT = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static("public"));
+auth(passport);
+app.use(passport.initialize());
+app.use(
+  cookieSession({
+    name: "session",
+    keys: [process.env.COOKIE_KEY]
+  })
+);
+app.use(cookieParser());
 
 // Handlebars
 app.engine(
