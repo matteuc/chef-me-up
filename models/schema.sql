@@ -1,0 +1,4 @@
+DROP DATABASE IF EXISTS chefmeup;
+CREATE DATABASE chefmeup;
+
+
