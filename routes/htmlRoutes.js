@@ -73,12 +73,12 @@ module.exports = function (app) {
     })
   );
   app.get("/auth/google/callback", passport.authenticate("google"), function (req, res) {
-    req.session.user = {
-      id: req.user._json.sub,
-      name: req.user._json.given_name,
-      picture: req.user._json.picture
-    };
-    res.json(req.session.user);
+    // req.session.user = {
+    //   id: req.user._json.sub,
+    //   name: req.user._json.given_name,
+    //   picture: req.user._json.picture
+    // };
+    res.json(req.user);
   });
 
   app.get("/logout", function (req, res) {
