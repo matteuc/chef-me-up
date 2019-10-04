@@ -73,14 +73,13 @@ module.exports = function (app) {
     })
   );
   app.get("/auth/google/callback", passport.authenticate("google"), function (req, res) {
-    // var userAuth = {
-    //   id: req.user._json.sub,
-    //   name: req.user._json.given_name,
-    //   picture: req.user._json.picture
-    // };
-    // res.cookie("userAuth", {});
-    // res.redirect("/");
-    res.json(req.user);
+    var userAuth = {
+      id: req.user.profile._json.sub,
+      name: req.user.profile._json.given_name,
+      picture: req.user.profile._json.picture
+    };
+    res.cookie("userAuth", userAuth);
+    res.redirect("/");
   });
 
   app.get("/logout", function (req, res) {
