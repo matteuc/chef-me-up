@@ -80,7 +80,7 @@ module.exports = function (app) {
     // };
     // res.cookie("userAuth", {});
     // res.redirect("/");
-    res.json(req.user._json);
+    res.json(req.user);
   });
 
   app.get("/logout", function (req, res) {
