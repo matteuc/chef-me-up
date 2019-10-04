@@ -25,6 +25,7 @@ module.exports = function (app) {
   // Load recipes page
   app.get("/recipes", function (req, res) {
     if (req.session.user) {
+      console.log("WOWOW u got a cookie");
       res.cookie("user", req.session.user);
       res.render("recipes", {
         layout: "main-auth"
@@ -42,13 +43,14 @@ module.exports = function (app) {
   // Load favorites page
   app.get("/favorites", function (req, res) {
     if (req.session.user) {
-      res.cookie("user", req.session.user);
+      console.log("test");
+      res.cookie("userAuth", req.session.user);
       res.render("favorites", {
         layout: "main-auth"
       });
 
     } else {
-      res.cookie("user", "");
+      res.cookie("userAuth", "");
       res.render("favorites");
     }    
     // db.User.findAll({}).then(function(favorites) {
