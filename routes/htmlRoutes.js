@@ -4,33 +4,53 @@
 var db = require("../models");
 var passport = require("passport");
 
-module.exports = function(app) {
+module.exports = function (app) {
   // Load fridge page
-  app.get("/", function(req, res) {
-    if (req.session.token) {
-      res.cookie("token", req.session.token);
-      console.log("cookie set");
+  app.get("/", function (req, res) {
+    if (req.session.user) {
+      res.cookie("user", req.session.user);
+      res.render("fridge", {
+        layout: "main-auth"
+      });
+
     } else {
-      res.cookie("token", "");
-      console.log("cookie not set");
+      res.cookie("user", "");
+      res.render("fridge");
     }
-    res.render("fridge");
     // db.User.findAll({}).then(function(pantryItems) {
     //   res.render("fridge");
     // });
   });
 
   // Load recipes page
-  app.get("/recipes", function(req, res) {
-    res.render("recipes");
+  app.get("/recipes", function (req, res) {
+    if (req.session.user) {
+      res.cookie("user", req.session.user);
+      res.render("recipes", {
+        layout: "main-auth"
+      });
+
+    } else {
+      res.cookie("user", "");
+      res.render("recipes");
+    }    
     // db.User.findAll({}).then(function(recipes) {
     //   res.render("recipes");
     // });
   });
 
   // Load favorites page
-  app.get("/favorites", function(req, res) {
-    res.render("favorites");
+  app.get("/favorites", function (req, res) {
+    if (req.session.user) {
+      res.cookie("user", req.session.user);
+      res.render("favorites", {
+        layout: "main-auth"
+      });
+
+    } else {
+      res.cookie("user", "");
+      res.render("favorites");
+    }    
     // db.User.findAll({}).then(function(favorites) {
     //   res.render("favorites");
     // });
@@ -52,24 +72,23 @@ module.exports = function(app) {
       scope: ["profile"]
     })
   );
-  app.get("/auth/google/callback", passport.authenticate("google"), function(req, res) {
-    
-    res.json(req.user);
+  app.get("/auth/google/callback", passport.authenticate("google"), function (req, res) {
+    req.session.user = {
+      id: req.user._json.sub,
+      name: req.user._json.given_name,
+      picture: req.user._json.picture
+    };
+    res.redirect("/");
   });
 
-  // Secret route
-  app.get('/secret', isUserAuthenticated, (req, res) => {
-    res.send('You have reached the secret route');
-  });
-
-  app.get("/logout", function(req, res) {
+  app.get("/logout", function (req, res) {
     req.logout();
     req.session = null;
     res.redirect("/");
   });
 
   // Render 404 page for any unmatched routes
-  app.get("*", function(req, res) {
+  app.get("*", function (req, res) {
     res.redirect("/");
   });
 };

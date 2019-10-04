@@ -26,6 +26,11 @@ body {
     width: auto;
 }
 
+.auth-btn {
+    position: absolute;
+    right: 5%;
+}
+
 .nav-tabs {
     border-bottom: none;
     background-color: var(--main-nav-color);
