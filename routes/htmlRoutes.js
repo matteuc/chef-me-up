@@ -78,7 +78,7 @@ module.exports = function (app) {
       name: req.user._json.given_name,
       picture: req.user._json.picture
     };
-    res.redirect("/");
+    res.json(req.session.user);
   });
 
   app.get("/logout", function (req, res) {
