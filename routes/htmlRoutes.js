@@ -24,7 +24,7 @@ module.exports = function (app) {
 
   // Load recipes page
   app.get("/recipes", function (req, res) {
-    if (req.session.user) {
+    if (req.session.userAuth) {
       console.log("WOWOW u got a cookie");
       res.cookie("user", req.session.user);
       res.render("recipes", {
