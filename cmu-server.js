@@ -16,6 +16,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static("public"));
 auth(passport);
+
+var sessionConfig = {
+  saveUninitialized: false,
+  resave: false // do not automatically write to the session store
+};
+
+app.use(session(sessionConfig));
 app.use(passport.initialize());
 app.use(
   cookieSession({

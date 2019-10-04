@@ -7,52 +7,51 @@ var passport = require("passport");
 module.exports = function (app) {
   // Load fridge page
   app.get("/", function (req, res) {
-    if (req.session.passport.user.profile._json) {
+    if (req.session.passport.user.profile) {
       var userAccount = req.session.passport.user.profile._json;
       res.render("fridge", {
+        username: userAccount.given_name,
+        userToken: userAccount.sub,
         layout: "main-auth"
       });
 
     } else {
-      res.render("fridge");
-      // res.render("fridge");
+      res.render("fridge", {
+        username: "User"
+      });
     }
-    // db.User.findAll({}).then(function(pantryItems) {
-    //   res.render("fridge");
-    // });
   });
 
   // Load recipes page
   app.get("/recipes", function (req, res) {
-    if (req.session.userAuth) {
-      res.cookie("userAuth", req.session.userAuth);
+    if (req.session.passport.user.profile) {
+      var userAccount = req.session.passport.user.profile._json;
       res.render("recipes", {
+        username: userAccount.given_name,
+        userToken: userAccount.sub,
         layout: "main-auth"
       });
 
     } else {
-      res.cookie("userAuth", "");
-      res.render("recipes");
-    }    
-    // db.User.findAll({}).then(function(recipes) {
-    //   res.render("recipes");
-    // });
+      res.render("recipes", {
+        username: "User"
+      });
+    }
   });
 
   // Load favorites page
   app.get("/favorites", function (req, res) {
     if (req.session.passport.user.profile) {
-      res.cookie("userAuth", req.session.userAuth);
+      var userAccount = req.session.passport.user.profile._json;
       res.render("favorites", {
+        username: userAccount.given_name,
+        userToken: userAccount.sub,
         layout: "main-auth"
       });
 
     } else {
       res.render("favorites");
-    }    
-    // db.User.findAll({}).then(function(favorites) {
-    //   res.render("favorites");
-    // });
+    }
   });
 
   // PASSPORT: GOOGLE AUTHENTICATION ROUTES

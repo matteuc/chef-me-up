@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card text-center">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span></span>
+                <h5 class="text-center"><strong>{{username}}'s</strong> Fridge</h5>
+                {{#if userToken.length}}
+                    <i id="sync-fridge-btn" data-userToken="{{userToken}}" class="text-info fas fa-sync fa-lg"></i>
+                {{else}}
+                    <i id="sync-fridge-btn" class="text-info fas fa-sync fa-lg"></i>
+                {{/if}}            
+            </div>
+                
+            <div id="fridge-content" class="card-body accordion">
+                    <div class="text-center">
+                        <p class="card-text text-muted text-center">No ingredients have been added yet. Add some!</p>
+                        <p><i class="fas fa-carrot fa-3x"></i></p>
+                    </div>
+            </div>
+         
+        </div>
+    </div>
+
+
+</div>
+
+<script src="js/fridge.js"></script>
