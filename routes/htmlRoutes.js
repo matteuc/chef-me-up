@@ -7,16 +7,17 @@ var passport = require("passport");
 module.exports = function (app) {
   // Load fridge page
   app.get("/", function (req, res) {
-    console.log(req.session);
-    if (req.session.user) {
-      res.cookie("user", req.session.user);
-      res.render("fridge", {
-        layout: "main-auth"
-      });
+    if (req.session.userAuth) {
+      res.cookie("userAuth", req.session.userAuth);
+      res.json(req.session.userAuth);
+      // res.render("fridge", {
+      //   layout: "main-auth"
+      // });
 
     } else {
-      res.cookie("user", "");
-      res.render("fridge");
+      res.cookie("userAuth", "");
+      res.json(req.session);
+      // res.render("fridge");
     }
     // db.User.findAll({}).then(function(pantryItems) {
     //   res.render("fridge");
@@ -26,14 +27,13 @@ module.exports = function (app) {
   // Load recipes page
   app.get("/recipes", function (req, res) {
     if (req.session.userAuth) {
-      console.log("WOWOW u got a cookie");
-      res.cookie("user", req.session.user);
+      res.cookie("userAuth", req.session.userAuth);
       res.render("recipes", {
         layout: "main-auth"
       });
 
     } else {
-      res.cookie("user", "");
+      res.cookie("userAuth", "");
       res.render("recipes");
     }    
     // db.User.findAll({}).then(function(recipes) {
@@ -43,9 +43,8 @@ module.exports = function (app) {
 
   // Load favorites page
   app.get("/favorites", function (req, res) {
-    if (req.session.user) {
-      console.log("test");
-      res.cookie("userAuth", req.session.user);
+    if (req.session.userAuth) {
+      res.cookie("userAuth", req.session.userAuth);
       res.render("favorites", {
         layout: "main-auth"
       });
