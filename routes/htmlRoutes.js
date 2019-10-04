@@ -53,6 +53,7 @@ module.exports = function(app) {
     })
   );
   app.get("/auth/google/callback", passport.authenticate("google"), function(req, res) {
+    
     res.json(req.user);
   });
 
