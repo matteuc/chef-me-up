@@ -7,16 +7,14 @@ var passport = require("passport");
 module.exports = function (app) {
   // Load fridge page
   app.get("/", function (req, res) {
-    if (req.session.userAuth) {
-      res.cookie("userAuth", req.session.userAuth);
-      res.json(req.session.userAuth);
-      // res.render("fridge", {
-      //   layout: "main-auth"
-      // });
+    if (req.session.passport.user.profile._json) {
+      var userAccount = req.session.passport.user.profile._json;
+      res.render("fridge", {
+        layout: "main-auth"
+      });
 
     } else {
-      res.cookie("userAuth", "");
-      res.json(req.session);
+      res.render("fridge");
       // res.render("fridge");
     }
     // db.User.findAll({}).then(function(pantryItems) {
@@ -43,14 +41,13 @@ module.exports = function (app) {
 
   // Load favorites page
   app.get("/favorites", function (req, res) {
-    if (req.session.userAuth) {
+    if (req.session.passport.user.profile) {
       res.cookie("userAuth", req.session.userAuth);
       res.render("favorites", {
         layout: "main-auth"
       });
 
     } else {
-      res.cookie("userAuth", "");
       res.render("favorites");
     }    
     // db.User.findAll({}).then(function(favorites) {
@@ -75,18 +72,11 @@ module.exports = function (app) {
     })
   );
   app.get("/auth/google/callback", passport.authenticate("google"), function (req, res) {
-    var userAuth = {
-      id: req.user.profile._json.sub,
-      name: req.user.profile._json.given_name,
-      picture: req.user.profile._json.picture
-    };
-    res.cookie("userAuth", userAuth);
     res.redirect("/");
   });
 
   app.get("/logout", function (req, res) {
     req.logout();
-    req.session = null;
     res.redirect("/");
   });
 
