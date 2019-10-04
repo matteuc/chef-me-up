@@ -7,6 +7,7 @@ var passport = require("passport");
 module.exports = function (app) {
   // Load fridge page
   app.get("/", function (req, res) {
+    console.log(req.session);
     if (req.session.user) {
       res.cookie("user", req.session.user);
       res.render("fridge", {
