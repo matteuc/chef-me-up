@@ -1,0 +1,27 @@
+<div class="card">
+    <div class="card-header d-flex justify-content-between" id="heading-{{category-id}}" data-toggle="collapse"
+        data-target="#collapse-{{category-id}}" aria-expanded="false" aria-controls="collapse-{{category-id}}">
+        <span class="mb-0">
+            {{!-- Ingredient Category name  --}}
+            {{category-name}}<span class="font-weight-bold">{{category-id}}</span>
+        </span>
+        <div>
+            {{!-- Ingredient Category icon --}}
+            <i class="{{category-icon}} fa-lg"></i>
+            <i class="fas fa-caret-down fa-lg"></i> 
+        </div>
+    </div>
+    ​
+    <div id="collapse-{{category-id}}" class="collapse" aria-labelledby="heading-{{category-id}}">
+        <div class="card-body">
+            {{#if ingredients.length}}
+            <div class="accordion">
+                {{#each ingredients}}
+                    {{> ingredient text-color=text-color}}
+                ​ {{/each}}
+            </div>
+            {{/if}}
+
+        </div>
+    </div>
+</div>
