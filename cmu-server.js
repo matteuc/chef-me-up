@@ -5,7 +5,6 @@ var exphbs = require("express-handlebars");
 var passport = require("passport");
 var auth = require("./config/auth");
 
-
 var db = require("./models");
 
 var app = express();
@@ -18,9 +17,9 @@ app.use(express.static("public"));
 auth(passport);
 
 var sessionConfig = {
-  saveUninitialized: false,
+  secret: "secret",
   resave: false,
-  secret: "secret"
+  saveUninitialized: false
 };
 
 app.use(session(sessionConfig));

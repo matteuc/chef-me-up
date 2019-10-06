@@ -1,6 +1,6 @@
 $(document).ready(function () {
     var loginAlertRecipes = `<div class="text-center">\
-    <h5>To add your own recipe, please login:</h5>
+    <h5>To add your own recipes, please login:</h5>
     <a href="/auth/google">\
       <img class="img-fluid login-btn" src="images/login-google.png">\
     </a>\
@@ -88,6 +88,7 @@ $(document).ready(function () {
         } else {
             bootbox.alert({
                 message: loginAlertRecipes,
+                centerVertical: true,
                 closeButton: false
             })
         }

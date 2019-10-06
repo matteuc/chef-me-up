@@ -77,7 +77,10 @@ module.exports = function (app) {
   });
 
   app.get("/logout", function (req, res) {
-    req.logout();
+    // req.logout();
+    req.session.destroy(function (err) {
+      res.redirect("/"); 
+    });
     res.redirect("/");
   });
 
