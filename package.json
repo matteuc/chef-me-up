@@ -5,7 +5,7 @@
   "main": "cmu-server.js",
   "scripts": {
     "start": "node cmu-server.js",
-    "lint": "eslint --quiet .",
+    "lint": "eslint --quiet cmu-server.js routes/*.js public/js/*.js models/*.js, config/*.js",
     "fix": "eslint --fix .",
     "test": "npm run lint && cross-env NODE_ENV=test mocha -u tdd --reporter spec --exit"
   },

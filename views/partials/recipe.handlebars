@@ -1,4 +1,75 @@
-<li class="recipe-block list-group-item d-flex justify-content-between align-items-center" data-id="{{id}}" data-date="{{sale_date}}" data-total="{{sale_total}}">
-    <strong>Transaction ID #{{id}}</strong> <span class="text-muted">{{sale_date}}</span>
-    <span class="badge badge-success badge-pill">${{sale_total}}</span>
+{{!-- <li class="sale-block list-group-item d-flex justify-content-between align-items-center" data-id="{{id}}" data-date="{{}}" data-total="{{}}">
+        <strong>Recipe Name{{id}}</strong> <span class="text-muted">{{recipe_data}}}</span>
+        <span class="badge badge-success badge-pill">${{recipe_data}}}</span>
+    <button class="btn btn-dark" data-id="{{this.id}}">Recipe</button>
   </li>
+--}}
+ <style>
+    h1 {
+    text-align:center;
+    font-size: 50px;
+    
+}
+h2 {
+    font-size: 25px;
+}
+h3 {
+    text-align: center;
+}
+.recipe-stuff {
+    border: 2px solid #F26400;
+    border-radius: 15px;
+    text-align: center;
+}
+.steps-list .list-group-item {
+    display: list-item;
+}
+  </style>
+ <div class="recipeTitle">
+    <h1> Broccoli Soup</h1>
+ </div>
+  <br>
+    <div class="container">
+      <div class="row recipe-stuff">
+        <div class="col-sm" >
+          <h2>Yields</h2>
+            <div class="yields">
+              Serving
+            </div>
+          </div>
+        <div class="col-sm" >
+          <h2>Prep Time</h2>
+            <div class="prepTime">
+              Minutes
+            </div>
+          </div>
+        <div class="col-sm" >
+          <h2>Total Time</h2>
+            <div class="totalTime">
+              Minutes
+            </div>
+          </div>
+      </div>
+      <br>
+      <h3>Ingrediants</h3>
+        <div class="listIng">
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">Cras justo odio</li>
+                <li class="list-group-item">Dapibus ac facilisis in</li>
+                <li class="list-group-item">Morbi leo risus</li>
+                <li class="list-group-item">Porta ac consectetur ac</li>
+                <li class="list-group-item">Vestibulum at eros</li>
+              </ul>
+        </div>
+        <br>
+      <h3>Steps</h3>
+        <div class="steps-list">
+            <ol class="list-group list-group-flush">
+                <li class="list-group-item">Cras justo odio</li>
+                <li class="list-group-item">Dapibus ac facilisis in</li>
+                <li class="list-group-item">Morbi leo risus</li>
+                <li class="list-group-item">Porta ac consectetur ac</li>
+                <li class="list-group-item">Vestibulum at eros</li>
+              </ol>
+        </div>
+    </div>
