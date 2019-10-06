@@ -18,8 +18,8 @@ app.use(express.static("public"));
 auth(passport);
 
 var sessionConfig = {
-  saveUninitialized: true,
-  resave: true,
+  saveUninitialized: false,
+  resave: false,
   secret: "secret"
 };
 
