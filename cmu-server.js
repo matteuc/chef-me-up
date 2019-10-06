@@ -1,10 +1,10 @@
 require("dotenv").config();
 var express = require("express");
+var session = require("express-session");
 var exphbs = require("express-handlebars");
 var passport = require("passport");
 var auth = require("./config/auth");
-var cookieParser = require("cookie-parser");
-var cookieSession = require("cookie-session");
+
 
 var db = require("./models");
 
@@ -18,19 +18,14 @@ app.use(express.static("public"));
 auth(passport);
 
 var sessionConfig = {
-  saveUninitialized: false,
-  resave: false // do not automatically write to the session store
+  saveUninitialized: true,
+  resave: true,
+  secret: "secret"
 };
 
 app.use(session(sessionConfig));
 app.use(passport.initialize());
-app.use(
-  cookieSession({
-    name: "session",
-    keys: [process.env.COOKIE_KEY]
-  })
-);
-app.use(cookieParser());
+app.use(passport.session());
 
 // Handlebars
 app.engine(

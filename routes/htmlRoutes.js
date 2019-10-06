@@ -7,7 +7,7 @@ var passport = require("passport");
 module.exports = function (app) {
   // Load fridge page
   app.get("/", function (req, res) {
-    if (req.session.passport.user.profile) {
+    if (req.session.passport) {
       var userAccount = req.session.passport.user.profile._json;
       res.render("fridge", {
         username: userAccount.given_name,
@@ -24,7 +24,7 @@ module.exports = function (app) {
 
   // Load recipes page
   app.get("/recipes", function (req, res) {
-    if (req.session.passport.user.profile) {
+    if (req.session.passport) {
       var userAccount = req.session.passport.user.profile._json;
       res.render("recipes", {
         username: userAccount.given_name,
@@ -41,7 +41,7 @@ module.exports = function (app) {
 
   // Load favorites page
   app.get("/favorites", function (req, res) {
-    if (req.session.passport.user.profile) {
+    if (req.session.passport) {
       var userAccount = req.session.passport.user.profile._json;
       res.render("favorites", {
         username: userAccount.given_name,
@@ -50,7 +50,9 @@ module.exports = function (app) {
       });
 
     } else {
-      res.render("favorites");
+      res.render("favorites", {
+        username: "User"
+      });
     }
   });
 

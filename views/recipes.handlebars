@@ -1,26 +1,28 @@
 <div class="row">
     <div class="col-sm-12">
+        {{#if userToken.length}}
+        <span id="userToken" data-token="{{userToken}}"></span>
+        {{/if}}
         <div class="card text-center">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <span></span>
+                <i id="add-recipe-btn" class="text-success fas fa-plus-square fa-lg"></i>
                 <h5 class="text-center"><strong>{{username}}'s</strong> Recipes</h5>
-                {{#if userToken.length}}
-                    <i id="sync-recipes-btn" data-userToken="{{userToken}}" class="text-info fas fa-sync fa-lg"></i>
-                {{else}}
-                    <i id="sync-recipes-btn" class="text-info fas fa-sync fa-lg"></i>
-                {{/if}}            
-            </div>            
-            
-                
-            <div id="recipes-content" class="card-body accordion">
-                    <div class="text-center">
-                        <p class="card-text text-muted text-center">No recipes found. Add more ingredients!</p>
-                        <p><i class="fas fa-scroll fa-3x"></i></p>
-                    </div>
+                <div class="custom-control custom-switch" >
+                    <input type="checkbox" class="custom-control-input" id="recipes-toggle" checked >
+                    <label class="custom-control-label" for="recipes-toggle"></label>
+                </div>
             </div>
-         
+
+            <div class="card-body">
+                <ul id="recipes-content">
+
+                </ul>
+                <div id="#no-recipes-msg" class="text-center">
+                    <p class="card-text text-muted text-center">No recipes found. Add more ingredients!</p>
+                    <p><i class="fas fa-scroll fa-3x"></i></p>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
-
-<script src="js/recipes.js"></script>

@@ -83,3 +83,11 @@ a:hover {
     font-size: 1.5em;
 }
 
+.login-btn {
+    margin-top: 20px;
+    height: 50px;
+}
+
+#empty-fridge-msg, #no-recipes-msg, #userToken {
+    display: none;
+}

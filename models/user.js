@@ -1,7 +1,9 @@
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define("User", {
     name: DataTypes.STRING,
-    dietPref: DataTypes.STRING
+    dietPref: DataTypes.STRING,
+    ingredients: DataTypes.TEXT,
+    favorites: DataTypes.TEXT
   });
 
   User.associate = function(models) {
