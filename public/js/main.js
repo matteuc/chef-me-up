@@ -1,13 +1,14 @@
 $(document).ready(function() {
   var currPath = window.location.pathname;
+  
 
   switch (currPath) {
   case "/":
     $("#ingredients-tab").addClass("active");
-      break;
+    break;
   case "/recipes":
     $("#recipes-tab").addClass("active");
-      break;
+    break;
   case "/favorites":
     $("#favorites-tab").addClass("active");
     break;

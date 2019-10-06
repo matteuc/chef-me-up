@@ -7,53 +7,53 @@ var passport = require("passport");
 module.exports = function (app) {
   // Load fridge page
   app.get("/", function (req, res) {
-    if (req.session.user) {
-      res.cookie("user", req.session.user);
+    if (req.session.passport) {
+      var userAccount = req.session.passport.user.profile._json;
       res.render("fridge", {
+        username: userAccount.given_name,
+        userToken: userAccount.sub,
         layout: "main-auth"
       });
 
     } else {
-      res.cookie("user", "");
-      res.render("fridge");
+      res.render("fridge", {
+        username: "User"
+      });
     }
-    // db.User.findAll({}).then(function(pantryItems) {
-    //   res.render("fridge");
-    // });
   });
 
   // Load recipes page
   app.get("/recipes", function (req, res) {
-    if (req.session.user) {
-      res.cookie("user", req.session.user);
+    if (req.session.passport) {
+      var userAccount = req.session.passport.user.profile._json;
       res.render("recipes", {
+        username: userAccount.given_name,
+        userToken: userAccount.sub,
         layout: "main-auth"
       });
 
     } else {
-      res.cookie("user", "");
-      res.render("recipes");
-    }    
-    // db.User.findAll({}).then(function(recipes) {
-    //   res.render("recipes");
-    // });
+      res.render("recipes", {
+        username: "User"
+      });
+    }
   });
 
   // Load favorites page
   app.get("/favorites", function (req, res) {
-    if (req.session.user) {
-      res.cookie("user", req.session.user);
+    if (req.session.passport) {
+      var userAccount = req.session.passport.user.profile._json;
       res.render("favorites", {
+        username: userAccount.given_name,
+        userToken: userAccount.sub,
         layout: "main-auth"
       });
 
     } else {
-      res.cookie("user", "");
-      res.render("favorites");
-    }    
-    // db.User.findAll({}).then(function(favorites) {
-    //   res.render("favorites");
-    // });
+      res.render("favorites", {
+        username: "User"
+      });
+    }
   });
 
   // PASSPORT: GOOGLE AUTHENTICATION ROUTES
@@ -73,20 +73,14 @@ module.exports = function (app) {
     })
   );
   app.get("/auth/google/callback", passport.authenticate("google"), function (req, res) {
-    var userAuth = {
-      id: req.user._json.sub,
-      name: req.user._json.given_name,
-      picture: req.user._json.picture
-    };
-    res.cookie("userAuth", {});
-    // res.redirect("/");
-    res.json(res.session);
+    res.redirect("/");
   });
 
   app.get("/logout", function (req, res) {
-    req.logout();
-    req.session = null;
-    res.redirect("/");
+    // req.logout();
+    req.session.destroy(function (err) {
+      res.redirect("/");
+    });
   });
 
   // Render 404 page for any unmatched routes

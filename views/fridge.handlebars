@@ -1,41 +1,27 @@
-<div class="card">
-    <div class="card-header d-flex justify-content-between" id="heading-{{id}}" data-toggle="collapse"
-        data-target="#collapse-{{id}}" aria-expanded="false" aria-controls="collapse-{{id}}">
-        <span class="mb-0">
-            {{!-- Ingredient Category name  --}}
-            Produce<span class="font-weight-bold">{{id}}</span>
-        </span>
-        <div>
-		    {{!-- Ingredient Category icon --}}
-            <i class="fas fa-leaf-oak fa-lg"></i>
-            <i class="far fa-meat"></i>
-            <i class="far fa-check-square"></i> 
-        </div>
-    </div>
-​
-    <div id="collapse-{{id}}" class="collapse" aria-labelledby="heading-{{id}}">
-        <div class="card-body">
-            {{#if ingredients.length}}
-                <div class="accordion">
-                    {{#each ingredients}}
-                        <div class="card">
-                            <div class="card-header d-flex justify-content-between" id="heading-{{ingredientId}}" data-toggle="collapse"
-                                data-target="#collapse-{{ingredientId}}" aria-expanded="false" aria-controls="collapse-{{ingredientId}}">
-                                <span class="mb-0">
-                                    {{name}}
-                                </span>
-                                <div>
-                                    <span class="text-muted font-italic">ID: {{ingredientId}}&nbsp;&nbsp;</span>
-									{{!-- Trash icon  --}}
-                                      <i class="far fa-check-square"></i>
-​                                      <i class="fas fa-trash-alt fa-lg"></i>
-                                </div>
-                            </div>
-                        </div>
-​                    {{/each}}
+<div class="row">
+    <div class="col-sm-12">
+        {{#if userToken.length}}
+            <span id="userToken" data-token="{{userToken}}"></span>
+        {{/if}}
+        <div class="card text-center">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                    <i id="add-ingredient-btn" data-add="false" class="text-success fas fa-plus-square fa-lg"></i>
+                    <h5 class="text-center"><strong>{{username}}'s</strong> Fridge</h5>
+                    <i id="sync-fridge-btn" class="text-info fas fa-sync fa-lg"></i>
+            </div>
+
+            <div class="card-body">
+                <ul id="fridge-content">
+
+                </ul>
+                <div id="empty-fridge-msg" class="text-center">
+                    <p class="card-text text-muted text-center">No ingredients have been added yet.</p>
+                    <p><i class="fas fa-carrot fa-3x"></i></p>
                 </div>
-            {{/if}}
-    
+            </div>
+
         </div>
     </div>
+
+
 </div>
