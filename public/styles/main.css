@@ -91,3 +91,7 @@ a:hover {
 #empty-fridge-msg, #no-recipes-msg, #userToken {
     display: none;
 }
+
+.ingredient-checkbox {
+    margin-top: -0.3rem;
+}

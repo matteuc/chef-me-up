@@ -2,10 +2,6 @@
 /* eslint-disable prettier/prettier */
 module.exports = function(sequelize, DataTypes) {
     var Recipe = sequelize.define("Recipe", {
-        public: {
-            type: DataTypes.BOOLEAN,
-            allowNull: false
-        },
         name: {
             type: DataTypes.STRING,
             allowNull: false,

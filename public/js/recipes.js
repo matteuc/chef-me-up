@@ -25,12 +25,8 @@ $(document).ready(function () {
             if(recipes.length) {
                 $.each(recipes, function (recipe) {
         
-                    var recipeInfo = {
-                        // Load recipe info
-                    };
-        
-                    // var recipePartial = Handlebars.templates.recipe(info);
-                    // recipesContent.append(recipePartial);
+                    var recipePartial = Handlebars.templates.recipeItem(recipe);
+                    recipesContent.append(recipePartial);
         
                 })
             } else {
@@ -75,7 +71,10 @@ $(document).ready(function () {
     $("#add-recipe-btn").click(function (e) {
         e.preventDefault();
         if (userToken) {
-            var recipeInfo = {};
+            // TODO: Show Bootbox Modal to prompt recipe creation
+            var recipeInfo = {
+
+            };
             $.ajax({
                 url: "/api/recipes",
                 type: "POST",
@@ -95,5 +94,5 @@ $(document).ready(function () {
     })
 
     // Load recipes when page first loads
-    // loadRecipes();
+    loadRecipes();
 });

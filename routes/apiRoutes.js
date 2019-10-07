@@ -2,7 +2,20 @@
 /* eslint-disable prettier/prettier */
 var db = require("../models");
 
+
+
 module.exports = function(app) {
+    function titleCase(str) {
+        var splitStr = str.toLowerCase().split(' ');
+        for (var i = 0; i < splitStr.length; i++) {
+            // You do not need to check if i is larger than splitStr length, as your for does that for you
+            // Assign it back to the array
+            splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);     
+        }
+        // Directly return the joined string
+        return splitStr.join(' '); 
+    }
+
     function findRecipes(ingredientIDs, res) {
         // Find recipes that match ingredientIDs
         db.RecipeIngredient.findAll({
@@ -22,6 +35,9 @@ module.exports = function(app) {
 
             for(var idx = 0; idx < recipeIngredients.length; idx++) {
                 var ri = recipeIngredients[idx];
+                var formalIngredientName = titleCase(ri.ingredientName);
+                var formalRecipeName = titleCase(ri.recipeName);
+
                 var match;
 
                 // If the recipe has already been seen
@@ -30,11 +46,11 @@ module.exports = function(app) {
                 }
                 // If the recipe has not been seen yet   
                 else {
-                  match = new RecipeMatch(ri.recipeName, ri.recipeId, 0, []); 
+                  match = new RecipeMatch(formalRecipeName, ri.recipeId, 0, []); 
                 }
 
                 match.numMatches++;
-                newMatch.matches.push(ri.ingredientName);
+                newMatch.matches.push({ingredientName: formalIngredientName});
                 recipeMatches[ri.recipeId] = match;
             }
 
@@ -45,7 +61,7 @@ module.exports = function(app) {
 
     // GET route for getting all of ingredients by category 
     app.get("/api/ingredients", function(req, res) {
-        db.Ingredient.findAll().then(function(ingredients) {
+        db.Ingredient.findAll({}).then(function(ingredients) {
             res.json(ingredients);
         });
     });
@@ -134,13 +150,12 @@ module.exports = function(app) {
         // Add recipe to database with userToken as a foreign key
         var userToken = req.params.userToken;
         var recipeInfo = req.body;
+        recipeInfo.UserId = userToken;
+        db.Recipe.create(recipeInfo).then(function(newRecipe){
+            res.json(newRecipe);
+        })
 
 
     });
 
-    
-
-
-
-    
 };

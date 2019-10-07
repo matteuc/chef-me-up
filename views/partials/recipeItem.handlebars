@@ -1,0 +1,24 @@
+<div class="card">
+  <div class="card-header d-flex justify-content-between" id="heading-{{id}}" data-toggle="collapse"
+    data-target="#collapse-{{id}}" aria-expanded="false" aria-controls="collapse-{{id}}">
+    <span class="mb-0">
+      {{name}}
+    </span>
+    <div>
+      <span class="badge badge-info">{{numMatches}}</span>
+      <i data-link="/recipes/{{id}}" class="fas fa-info-circle fa-lg"></i>
+      <i class="fas fa-caret-down fa-lg"></i>
+    </div>
+  </div>
+
+  <div id="collapse-{{id}}" class="collapse" aria-labelledby="heading-{{id}}">
+    <div class="card-body text-center">
+      <p class="font-italic">You currently have <span class="text-success font-weight-bold">{{numMatches}}</span> of this recipe's ingredients!</p>
+      <ul class="list-group">
+      {{#each matches}}
+        <li class="list-group-item">{{ingredientName}}</li>
+      {{/each}}
+      </ul>
+    </div>
+  </div>
+</div>

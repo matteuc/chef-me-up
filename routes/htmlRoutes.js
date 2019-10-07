@@ -39,6 +39,29 @@ module.exports = function (app) {
     }
   });
 
+  app.get("/recipes/:recipeId", function (req, res) {
+    var recipeId = req.params.recipeId;
+
+    db.Recipe.findAll({
+      where: {
+        id: recipeId
+      }
+    }).then(function(recipe) {
+      // TODO: Fill in config with the data necessary for rendering a recipe
+        var renderConfig = {
+          
+        };
+      
+        if(req.session.passport) {
+          var userAccount = req.session.passport.user.profile._json;
+          renderConfig.userToken = userAccount.sub;
+          renderConfig.layout = "main-auth";
+        }
+        
+        res.render("recipeView", renderConfig);
+      })
+  });
+
   // Load favorites page
   app.get("/favorites", function (req, res) {
     if (req.session.passport) {
@@ -63,7 +86,7 @@ module.exports = function (app) {
     })
   );
   app.get("/auth/google/callback", passport.authenticate("google"), function (req, res) {
-    if(req.session.passport) {
+    if (req.session.passport) {
       var userAccount = req.session.passport.user.profile._json;
       db.User.findOrCreate({
         where: {
@@ -85,7 +108,6 @@ module.exports = function (app) {
     });
   });
 
-  // Render 404 page for any unmatched routes
   app.get("*", function (req, res) {
     res.redirect("/");
   });

@@ -12,7 +12,6 @@ $(document).ready(function () {
         $.get("/api/ingredients", function (data) {
             var ingredients = data;
 
-
             if (ingredients.length) {
                 fridgeContent.empty();
             } else {
@@ -31,6 +30,8 @@ $(document).ready(function () {
 
             })
             markIngredients();
+            hideUnmarked();
+
         })
     }
 
@@ -81,6 +82,22 @@ $(document).ready(function () {
          return arr;
     }
 
+    function hideUnmarked() {
+        var ingredientCheckboxes = $('.ingredient-checkbox:checkbox:not(:checked)');
+        $.each(ingredientCheckboxes, function (idx, ingredientCheckbox) {
+            var id = $(ingredientCheckbox).attr("data-id");
+            $(`.ingredient-block[data-id="${id}"`).hide();
+        })
+    }
+
+    function showUnmarked() {
+        var ingredientCheckboxes = $('.ingredient-checkbox:checkbox:not(:checked)');
+        $.each(ingredientCheckboxes, function (idx, ingredientCheckbox) {
+            var id = $(ingredientCheckbox).attr("data-id");
+            $(`.ingredient-block[data-id="${id}"`).show();
+        })
+    }
+
     $("#sync-fridge-btn").click(function (e) {
         e.preventDefault();
         markIngredients();
@@ -90,30 +107,25 @@ $(document).ready(function () {
         e.preventDefault();
         var addStatus = $(this).attr("data-add");
         // Get all ingredient elements that are currently not checked
-        var ingredientCheckboxes = $('.ingredient-checkbox:checkbox:not(:checked)');
         if (addStatus == "true") {
             // If unadded ingredients are currently showing, hide them
-            $.each(ingredientCheckboxes, function (idx, ingredientCheckbox) {
-                ingredientCheckbox.parent().hide();
-            })
+            hideUnmarked();
             $(this).removeClass("text-danger fa-minus-square")
             $(this).addClass("text-success fa-plus-square")
             $(this).attr("data-add", "false");
         } else {
             // If not, show all unadded ingredients
-            $.each(ingredientCheckboxes, function (idx, ingredientCheckbox) {
-                ingredientCheckbox.parent().show();
-            })
+            showUnmarked();
             $(this).removeClass("text-success fa-plus-square")
             $(this).addClass("text-danger fa-minus-square")
             $(this).attr("data-add", "true");
         }
     })
 
-    $(".ingredient-checkbox[type='checkbox']").click(function () {
+    $(document).on("click", ".ingredient-checkbox[type='checkbox']", function () {
         var ingredientID = $(this).attr("data-id");
         var ingredients = localStorage.getItem("ingredients");
-        if ($(this).prop("checked") == true) {
+        if ($(this).prop("checked") == false) {
             if (userToken) {
                 // Make an API DELETE request 
                 $.ajax({
@@ -128,7 +140,7 @@ $(document).ready(function () {
                 // Remove ingredient from localStorage
                 if (ingredients) {
                     var ingredientIDs = ingredients.split(";");
-                    localStorage.setItem("ingredients", JSON.stringify(removeIngredient(ingredientIDs, ingredientID)));
+                    localStorage.setItem("ingredients", removeIngredient(ingredientIDs, ingredientID).join(";"));
                 }
             }
         } else {
@@ -146,14 +158,14 @@ $(document).ready(function () {
                 // Add ingredient to localStorage
                 if (ingredients) {
                     var ingredientIDs = ingredients.split(";");
-                    localStorage.setItem("ingredients", JSON.stringify(addIngredient(ingredientIDs, ingredientID)));
+                    localStorage.setItem("ingredients", addIngredient(ingredientIDs, ingredientID).join(";"));
+                } else {
+                    localStorage.setItem("ingredients", ingredientID);
                 }
             }
         }
     })
 
     // Load ingredients when page loads
-    // loadIngredients()
-    emptyMsg.show();
-
+    loadIngredients();
 })
