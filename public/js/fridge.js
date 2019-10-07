@@ -30,26 +30,32 @@ $(document).ready(function () {
 
             })
             markIngredients();
-            hideUnmarked();
 
         })
     }
 
     function markIngredients() {
+        var addStatus = $("#add-ingredient-btn").attr("data-add");
+
         function markIngredientElements(ingredientIDs) {
             // Mark the ingredients on the DOM
             $.each(ingredientIDs, function (idx, ingredientID) {
-                $(`.ingredient-checkbox[data-id="${ingredientID}"]`).prop('checked', true);
-            })
+                if(ingredientID !== "") {
+                    $(`.ingredient-checkbox[data-id="${ingredientID}"]`).prop('checked', true);
+                }
+            });
+            if(addStatus == "false") {
+                hideUnmarked();
+            }
         }
 
         // If user is signed in, mark fridge items
         if (userToken) {
-            $.get(`/api/${userToken}/fridge`, function (res) {
+            $.get(`/api/${userToken}/fridge`, function (data) {
                 $("#sync-fridge-btn").removeClass("fa-spin");
 
-                var ingredients = res.data;
-                var ingredientIDs = ingredients.split(";");
+                var ingredientIDs = data;
+                console.log(ingredientIDs);
                 markIngredientElements(ingredientIDs);
 
             })
@@ -125,7 +131,12 @@ $(document).ready(function () {
     $(document).on("click", ".ingredient-checkbox[type='checkbox']", function () {
         var ingredientID = $(this).attr("data-id");
         var ingredients = localStorage.getItem("ingredients");
+        var addStatus = $("#add-ingredient-btn").attr("data-add");
+
         if ($(this).prop("checked") == false) {
+            if(addStatus == "false") {
+                hideUnmarked();
+            }
             if (userToken) {
                 // Make an API DELETE request 
                 $.ajax({

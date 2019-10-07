@@ -49,13 +49,6 @@ app.engine(
   
   // Starting the server, syncing our models ------------------------------------/
   db.sequelize.sync(syncOptions).then(function() {
-    db.Ingredient.create({
-      name: "Chicken Breast"
-    });
-
-    db.Ingredient.create({
-      name: "Spinach"
-    });
     app.listen(PORT, function() {
       console.log(
         "==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",

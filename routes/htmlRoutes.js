@@ -46,20 +46,20 @@ module.exports = function (app) {
       where: {
         id: recipeId
       }
-    }).then(function(recipe) {
+    }).then(function (recipe) {
       // TODO: Fill in config with the data necessary for rendering a recipe
-        var renderConfig = {
-          
-        };
-      
-        if(req.session.passport) {
-          var userAccount = req.session.passport.user.profile._json;
-          renderConfig.userToken = userAccount.sub;
-          renderConfig.layout = "main-auth";
-        }
-        
-        res.render("recipeView", renderConfig);
-      })
+      var renderConfig = {
+
+      };
+
+      if (req.session.passport) {
+        var userAccount = req.session.passport.user.profile._json;
+        renderConfig.userToken = userAccount.sub;
+        renderConfig.layout = "main-auth";
+      }
+
+      res.render("recipeView", renderConfig);
+    })
   });
 
   // Load favorites page
@@ -86,19 +86,24 @@ module.exports = function (app) {
     })
   );
   app.get("/auth/google/callback", passport.authenticate("google"), function (req, res) {
-    if (req.session.passport) {
-      var userAccount = req.session.passport.user.profile._json;
-      db.User.findOrCreate({
-        where: {
-          token: userAccount.sub
-        },
-        defaults: {
-          name: userAccount.given_name,
-          ingredients: "",
-          favorites: ""
-        }
-      });
-    }
+    var userAccount = req.session.passport.user.profile._json;
+    db.User.findOne({
+      where: {
+        token: userAccount.sub
+      }
+    }).then(function (userData) {
+      var userInfo = {
+        name: userAccount.given_name,
+        token: userAccount.sub,
+        ingredients: "",
+        favorites: ""
+      };
+
+      if (!userData) {
+        db.User.create(userInfo);
+      }
+    });
+    
     res.redirect("/");
   });
 
