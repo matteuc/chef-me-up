@@ -56,16 +56,6 @@ module.exports = function (app) {
     }
   });
 
-  // PASSPORT: GOOGLE AUTHENTICATION ROUTES
-  // Middleware to check if the user is authenticated
-  function isUserAuthenticated(req, res, next) {
-    if (req.user) {
-      next();
-    } else {
-      res.send("You must login!");
-    }
-  }
-
   app.get(
     "/auth/google",
     passport.authenticate("google", {
@@ -73,11 +63,23 @@ module.exports = function (app) {
     })
   );
   app.get("/auth/google/callback", passport.authenticate("google"), function (req, res) {
+    if(req.session.passport) {
+      var userAccount = req.session.passport.user.profile._json;
+      db.User.findOrCreate({
+        where: {
+          token: userAccount.sub
+        },
+        defaults: {
+          name: userAccount.given_name,
+          ingredients: "",
+          favorites: ""
+        }
+      });
+    }
     res.redirect("/");
   });
 
   app.get("/logout", function (req, res) {
-    // req.logout();
     req.session.destroy(function (err) {
       res.redirect("/");
     });
