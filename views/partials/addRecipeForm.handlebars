@@ -1,0 +1,83 @@
+<form>
+
+    <div class="form-group">
+        <label for="recipe-name">Name</label>
+        <input type="text" class="form-control" id="new-recipe-name">
+    </div>
+    <div class="form-group">
+        <label for="new-recipe-description">Description <span class="text-muted">(optional)</span></label>
+        <textarea class="form-control" id="new-recipe-description" rows="3"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="new-recipe-cuisine">Cuisine</label>
+        <select id="new-recipe-cuisine" class="form-control">
+            <option selected>Choose...</option>
+            <option>...</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-sm-4">
+            <label for="new-recipe-serving">Serving Size</label>
+            <input type="number" class="form-control" id="new-recipe-serving">
+
+        </div>
+        <div class="form-group col-sm-4">
+            <label for="new-recipe-prep">Prep. Time <span class="text-muted">(min.)</span></label>
+            <input type="number" class="form-control" id="new-recipe-prep">
+
+        </div>
+        <div class="form-group col-sm-4">
+            <label for="new-recipe-cook">Cook Time <span class="text-muted">(min.)</span></label>
+            <input type="number" class="form-control" id="new-recipe-cook">
+        </div>
+    </div>
+    <hr>
+    <h4> Ingredients </h4>
+    <div class="form-row">
+        <div id="new-ingredient-list">
+            <div class="new-ingredient-block form-row">
+                <div class="form-group col-sm-6">
+                    <label for="new-recipe-ingredient-name-0">Name</label>
+                    <input type="text" class="form-control" id="new-recipe-ingredient-0">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="new-recipe-ingredient-quantity-0">Quantity</label>
+                    <input type="number" class="form-control" id="new-recipe-quantity-0">
+                </div>
+                <div class="form-group col-sm-3">
+                    <label for="new-recipe-ingredient-unit-0">Unit</label>
+                    <select id="new-recipe-ingredient-unit-0" class="form-control">
+                        <option selected>tsp</option>
+                        <option>tbsp</option>
+                        <option>oz</option>
+                        <option>lb</option>
+                        <option>g</option>
+                        <option>kg</option>
+                        <option>cup(s)</option>
+                        <option>mL</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" id="add-recipe-ingredient-btn" class="btn btn-success btn-lg btn-block">Add
+            Ingredient&nbsp;&nbsp;<i class="fas fa-plus-circle fa-sm"></i></button>
+    </div>
+    <hr>
+    <h4> Instructions </h4>
+    <div class="form-row">
+        <div id="new-instruction-list" class="container">
+            <div class="new-instruction-block row">
+                <div class="col-sm-1" style="padding-top: 5px">
+                    <strong>1.</strong>
+                </div>
+                <div class="form-group col-sm-11">
+                    <input type="text" class="form-control" id="new-recipe-instruction-0">
+                </div>
+            </div>
+        </div>
+
+        <button type="button" id="add-recipe-instruction-btn" class="btn btn-info btn-lg btn-block">Add
+            Instruction&nbsp;&nbsp;<i class="fas fa-plus-circle fa-sm"></i></button>
+    </div>
+</form>

@@ -1,0 +1,23 @@
+<div class="new-ingredient-block form-row">
+    <div class="form-group col-sm-6">
+        <label for="new-recipe-ingredient-name-{{idx}}">Name</label>
+        <input type="text" class="form-control" id="new-recipe-ingredient-{{idx}}">
+    </div>
+    <div class="form-group col-sm-3">
+        <label for="new-recipe-ingredient-quantity-{{idx}}">Quantity</label>
+        <input type="number" class="form-control" id="new-recipe-quantity-{{idx}}">
+    </div>
+    <div class="form-group col-sm-3">
+        <label for="new-recipe-ingredient-unit-{{idx}}">Unit</label>
+        <select id="new-recipe-ingredient-unit-{{idx}}" class="form-control">
+            <option selected>tsp</option>
+            <option>tbsp</option>
+            <option>oz</option>
+            <option>lb</option>
+            <option>g</option>
+            <option>kg</option>
+            <option>cup(s)</option>
+            <option>mL</option>
+        </select>
+    </div>
+</div>

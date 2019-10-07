@@ -55,7 +55,6 @@ $(document).ready(function () {
                 $("#sync-fridge-btn").removeClass("fa-spin");
 
                 var ingredientIDs = data;
-                console.log(ingredientIDs);
                 markIngredientElements(ingredientIDs);
 
             })
