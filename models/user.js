@@ -3,7 +3,8 @@ module.exports = function(sequelize, DataTypes) {
     name: DataTypes.STRING,
     token: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      primaryKey: true
     },
     ingredients: {
       type: DataTypes.TEXT

@@ -97,9 +97,11 @@ module.exports = function (app) {
     });
 
     app.get("/api/recipes", function (req, res) {
+
         db.Recipe.findAll({}).then(function (recipes) {
             res.json(recipes);
         });
+
     });
 
     app.delete("/api/:userToken/fridge", function (req, res) {
@@ -119,11 +121,11 @@ module.exports = function (app) {
             db.User.update({
                 ingredients: ingredients.join(";")
             },
-            {
-                where: {
-                    token: userToken
-                }
-            });
+                {
+                    where: {
+                        token: userToken
+                    }
+                });
             res.json({});
         });
 
@@ -137,18 +139,18 @@ module.exports = function (app) {
                 token: userToken
             }
         }).then(function (userInfo) {
-            
+
             var ingredients = userInfo.ingredients.split(";");
             ingredients.push(ingredientID);
             var product = ingredients.join(";");
-            
+
             db.User.update({
                 ingredients: product
             }, {
                 where: {
                     token: userToken
                 }
-            }).then(function(){
+            }).then(function () {
 
                 res.json({});
             });
@@ -159,12 +161,59 @@ module.exports = function (app) {
     app.post("/api/:userToken/recipes", function (req, res) {
         // Add recipe to database with userToken as a foreign key
         var userToken = req.params.userToken;
-        var recipeInfo = req.body;
-        recipeInfo.UserId = userToken;
+        var recipeInfo = JSON.parse(req.body.info);
+        recipeInfo.UserToken = userToken;
+        var ingredients = JSON.parse(req.body.ingredients);
         db.Recipe.create(recipeInfo).then(function (newRecipe) {
-            res.json(newRecipe);
-        })
+            var recipeID = newRecipe.id;
 
+            // 
+            // Add RecipeIngredient's to Database 
+            // 
+            db.Ingredient.findAll({}).then(function (existingIngredients) {
+
+                // Get all current Ingredient's and create searchup object
+                var igCatalog = {};
+                for (eIngredient of existingIngredients) {
+                    igCatalog[eIngredient.name] = eIngredient;
+                }
+
+                // Initialize an array to store all  RecipeIngredients "recipeIngredients"
+                var recipeIngredients = [];
+                // Initialize an array to store all uncreated Ingredients "newIngredients"
+                var newIngredients = [];
+                var newIngredientNames = [];
+
+                // iterate through "ingredients" and assign to "oldIngredients" and  "newIngredients" as appropriate
+                for (i of ingredients) {
+                    // If ingredient already exists in the database
+                    if (igCatalog[i.name.toLowerCase()]) {
+                        i.ingredientId = igCatalog[i.name.toLowerCase()].id;
+                        i.recipeId = recipeID;
+                        recipeIngredients.push(i);
+                    }
+                    // If ingredient does not exist yet
+                    else {
+                        i.recipeId = recipeID;
+                        newIngredients.push(i);
+                        newIngredientNames.push({ name: i.name.toLowerCase() });
+                    }
+                }
+                // Bulk create newIngredients in Ingredient Table
+
+                db.Ingredient.bulkCreate(newIngredientNames).then(function (arr) {
+                    for (var idx = 0; idx < newIngredients.length; i++) {
+                        newIngredients[idx].ingredientId = arr[idx].id;
+                    }
+                    // Then bulk create all ingredients in RecipeIngredientTable
+                    recipeIngredients.concat(newIngredients);
+                    db.RecipeIngredient.create(recipeIngredients).then(function (data) {
+                        res.json(data);
+                    })
+                });
+            })
+
+        })
 
     });
 

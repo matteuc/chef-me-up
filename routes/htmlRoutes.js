@@ -58,7 +58,7 @@ module.exports = function (app) {
         renderConfig.layout = "main-auth";
       }
 
-      res.render("recipeView", renderConfig);
+      res.render("recipe", renderConfig);
     })
   });
 

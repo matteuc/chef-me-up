@@ -79,15 +79,67 @@ $(document).ready(function () {
                 centerVertical: true,
                 closeButton: false,
                 callback: function (response) {
+                    // RETRIEVE ALL RECIPE INFORMATION
+                    var recipeName = $("#new-recipe-name").val().trim();
+                    var recipeDescription = $("#new-recipe-description").val().trim();
+                    var recipeCuisine = $("#new-recipe-cuisine").val().trim();
+                    var recipeServing = $("#new-recipe-serving").val();
+                    var recipePrep = $("#new-recipe-prep").val();
+                    var recipeCook = $("#new-recipe-cook").val();
+                    
+                    // TODO: CHECK IF ALL REQUIRED FIELDS ARE NOT NULL
+
+                    // GET ALL INGREDIENTS
+                    var recipeIngredients = [];
+                    for(var i = 0; i <= instructionIdx; i++) {
+                        console.log($(`#new-recipe-ingredient-name-${i}`).html());
+                        var iName = $(`#new-recipe-ingredient-name-${i}`).val().trim();
+                        var iQuantity = $(`#new-recipe-ingredient-quantity-${i}`).val();
+                        var iUnit = $(`#new-recipe-ingredient-unit-${i}`).val();
+
+                        if(!(iName == "" || iName == null || iQuantity == null || isNaN(iQuantity) || iQuantity == 0)) {
+                            var newIngredient = {
+                                name: iName,
+                                quantity: iQuantity,
+                                unit: iUnit
+                            };
+                            recipeInstructions.push(newIngredient);
+                        }
+                    }
+
+                    // GET ALL INSTRUCTIONS
+                    var recipeInstructions = [];
+                    for(var i = 0; i <= instructionIdx; i++) {
+                        var value = $(`#new-recipe-instruction-${i}`).val();
+                        if(!(value == "" || value == null)) {
+                            recipeInstructions.push($(`#new-recipe-instruction-${i}`).val());
+                        }
+                    }
+
+                    instructionIdx = 0;
+                    recipeInstructions = recipeInstructions.join(";");
+
                     var recipeInfo = {
-
+                        name: recipeName,
+                        description: recipeDescription,
+                        prepTime: recipePrep,
+                        cookTime: recipeCook,
+                        servingSize: recipeServing,
+                        cuisine: recipeCuisine,
+                        instructions: recipeInstructions
                     };
-                    $.ajax({
-                        url: "/api/recipes",
-                        type: "POST",
-                        data: recipeInfo,
-                        success: function (res) {
 
+
+                    // ADD RECIPE TO DATABASE 
+                    $.ajax({
+                        url: `/api/${userToken}/recipes`,
+                        type: "POST",
+                        data: {
+                            info: JSON.stringify(recipeInfo),
+                            ingredients: JSON.stringify(recipeIngredients)
+                        },
+                        success: function (res) {
+                            console.log(res);
                         }
                     })
                 }
