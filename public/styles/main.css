@@ -88,10 +88,23 @@ a:hover {
     height: 50px;
 }
 
-#empty-fridge-msg, #no-recipes-msg, #userToken {
+#empty-fridge-msg, #userToken, #ig-search, #ig-search-error, #no-ig-msg {
     display: none;
 }
 
 .ingredient-checkbox {
     margin-top: -0.3rem;
+}
+
+.delete-ingredient-btn {
+    color: red;
+    position: absolute;
+    bottom: 11px;
+}
+
+.delete-instruction-btn {
+    color: red;
+    position: absolute;
+    bottom: 11px;
+    right: 0.1em;
 }

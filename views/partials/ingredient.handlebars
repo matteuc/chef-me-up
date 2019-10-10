@@ -1,8 +1,12 @@
-<li class="ingredient-block list-group-item" data-id="{{id}}" >
+<li class="ingredient-block list-group-item" data-id="{{id}}" data-name="{{name}}" data-checked="false">
     <div class="d-flex justify-content-between align-items-center">
         <span class="font-weight-bold text-muted">{{name}}</span>
         <div class="text-center">
+            {{#if isForm}}
+            <button type="button" class="ig-select-btn btn btn-success" data-name="{{name}}" data-id="{{id}}"><i class="fas fa-plus fa-sm"></i></button>
+            {{else}}
             <input type="checkbox" class="ingredient-checkbox form-check-input" data-id="{{id}}">
+            {{/if}}
         </div>
     </div>
 </li>

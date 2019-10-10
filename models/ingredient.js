@@ -18,6 +18,7 @@ module.exports = function(sequelize, DataTypes) {
             otherKey: "recipeId",
             allowNull: false
         });
+
     };
     return Ingredient;
 };

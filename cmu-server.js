@@ -5,7 +5,12 @@ var exphbs = require("express-handlebars");
 var passport = require("passport");
 var auth = require("./config/auth");
 var db = require("./models");
-
+// var ingredients = require("./ingredients.json");
+// db.Ingredient.bulkCreate(ingredients).then(function(res) {
+//   if (res) {
+//     console.log(true);
+//   }
+// });
 
 var app = express();
 var PORT = process.env.PORT || 3000;

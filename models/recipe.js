@@ -41,6 +41,7 @@ module.exports = function(sequelize, DataTypes) {
         cuisine: DataTypes.STRING
     });
     Recipe.associate = function(models) {
+
         Recipe.belongsTo(models.User, {
             foreignKey: {
                 allowNull: false,

@@ -1,34 +1,39 @@
-<form>
-
+<form id="main-form">
     <div class="form-group">
         <label for="new-recipe-name">Name</label>
-        <input type="text" class="form-control" id="new-recipe-name">
+        <input type="text" class="form-control" id="new-recipe-name" data-toggle="manual" data-container="body"
+            data-placement="top" data-content="">
     </div>
     <div class="form-group">
         <label for="new-recipe-description">Description <span class="text-muted">(optional)</span></label>
         <textarea class="form-control" id="new-recipe-description" rows="3"></textarea>
     </div>
     <div class="form-group">
-        <label for="new-recipe-cuisine">Cuisine</label>
+        <label for="new-recipe-cuisine">Cuisine <span class="text-muted">(optional)</span></label>
         <select id="new-recipe-cuisine" class="form-control">
-            <option selected>Choose...</option>
-            <option>...</option>
+            <option data-default="true" selected>Choose...</option>
+            {{#each cuisines}}
+            <option data-default="false">{{name}}</option>
+            {{/each}}
         </select>
     </div>
     <div class="form-row">
-        <div class="form-group col-sm-4">
+        <div class="form-group col-4">
             <label for="new-recipe-serving">Serving Size</label>
-            <input type="number" class="form-control" id="new-recipe-serving">
+            <input type="number" class="form-control" id="new-recipe-serving" data-toggle="manual" data-container="body"
+                data-placement="top" data-content="">
 
         </div>
-        <div class="form-group col-sm-4">
+        <div class="form-group col-4">
             <label for="new-recipe-prep">Prep. Time <span class="text-muted">(min.)</span></label>
-            <input type="number" class="form-control" id="new-recipe-prep">
+            <input type="number" class="form-control" id="new-recipe-prep" data-toggle="manual" data-container="body"
+                data-placement="top" data-content="">
 
         </div>
-        <div class="form-group col-sm-4">
+        <div class="form-group col-4">
             <label for="new-recipe-cook">Cook Time <span class="text-muted">(min.)</span></label>
-            <input type="number" class="form-control" id="new-recipe-cook">
+            <input type="number" class="form-control" id="new-recipe-cook" data-toggle="manual" data-container="body"
+                data-placement="top" data-content="">
         </div>
     </div>
     <hr>
@@ -36,17 +41,21 @@
     <div class="form-row">
         <div id="new-ingredient-list">
             <div class="new-ingredient-block form-row">
-                <div class="form-group col-sm-6">
+                <div class="form-group col-6">
                     <label for="new-recipe-ingredient-name-0">Name</label>
-                    <input type="text" class="form-control" id="new-recipe-ingredient-name-0">
+                    <input placeholder="Click to add an ingredient!" type="text"
+                        class="new-recipe-ingredient-name-input form-control" id="new-recipe-ingredient-name-0"
+                        data-toggle="manual" data-container="body" data-placement="top" data-content="" readonly>
                 </div>
-                <div class="form-group col-sm-3">
+                <div class="form-group col-3">
                     <label for="new-recipe-ingredient-quantity-0">Quantity</label>
-                    <input type="number" class="form-control" id="new-recipe-quantity-0">
+                    <input type="number" class="form-control" id="new-recipe-ingredient-quantity-0" data-toggle="manual"
+                        data-container="body" data-placement="top" data-content="">
                 </div>
-                <div class="form-group col-sm-3">
+                <div class="form-group col-2">
                     <label for="new-recipe-ingredient-unit-0">Unit</label>
-                    <select id="new-recipe-ingredient-unit-0" class="form-control">
+                    <select id="new-recipe-ingredient-unit-0" data-toggle="manual" data-container="body"
+                        data-placement="top" data-content="" class="form-control">
                         <option selected>tsp</option>
                         <option>tbsp</option>
                         <option>oz</option>
@@ -56,6 +65,9 @@
                         <option>cup(s)</option>
                         <option>mL</option>
                     </select>
+                </div>
+                <div class="form-group col-1">
+                    &nbsp;
                 </div>
             </div>
         </div>
@@ -68,11 +80,15 @@
     <div class="form-row">
         <div id="new-instruction-list" class="container">
             <div class="new-instruction-block row">
-                <div class="col-sm-1" style="padding-top: 5px">
+                <div class="col-1" style="padding-top: 5px">
                     <strong>1.</strong>
                 </div>
-                <div class="form-group col-sm-11">
-                    <input type="text" class="form-control" id="new-recipe-instruction-0">
+                <div class="form-group col-10">
+                    <input type="text" class="form-control" id="new-recipe-instruction-0" data-toggle="manual"
+                        data-container="body" data-placement="top" data-content="">
+                </div>
+                <div class="col-1">
+                    &nbsp; 
                 </div>
             </div>
         </div>
@@ -81,3 +97,31 @@
             Instruction&nbsp;&nbsp;<i class="fas fa-plus-circle fa-sm"></i></button>
     </div>
 </form>
+<div id="ingredient-selection" data-formId="">
+
+    <div id="ig-search" class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <button id="ig-search-submit-btn" type="submit" class="btn btn-link text-warning"><i
+                        class="fa fa-search"></i></button>
+            </div>
+            <input id="ig-search-input" type="search" placeholder="What ingredient are you looking for?"
+                aria-describedby="ig-search-submit-btn" class="form-control border-0 bg-light">
+        </div>
+    </div>
+
+    <p id="ig-search-error" class="mt-1 text-danger text-center font-weight-bold">"<span id="error-ig-name"></span>"
+        could not be found!</p>
+
+    <div id="ingredient-selection-content">
+
+    </div>
+    <div id="no-ig-msg" class="text-center">
+        <p class="card-text text-muted text-center">No ingredients have been added yet.</p>
+        <p><i class="fas fa-carrot fa-3x"></i></p>
+    </div>
+
+</div>
+
+
+<script src="/js/igSelect.js"></script>

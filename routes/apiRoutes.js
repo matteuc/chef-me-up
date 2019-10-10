@@ -1,8 +1,20 @@
 /* eslint-disable indent */
 /* eslint-disable prettier/prettier */
 var db = require("../models");
+var cuisines = require("../data/cuisines.json");
 
 module.exports = function (app) {
+    // Get all current Ingredient's and create searchup object
+    var igCatalog;
+    db.Ingredient.findAll({}).then(function (existingIngredients) {
+
+        // Get all current Ingredient's and create searchup object
+        igCatalog = {};
+        for (eIngredient of existingIngredients) {
+            igCatalog[eIngredient.name] = eIngredient;
+        }
+    });
+
     function titleCase(str) {
         var splitStr = str.toLowerCase().split(' ');
         for (var i = 0; i < splitStr.length; i++) {
@@ -14,54 +26,87 @@ module.exports = function (app) {
         return splitStr.join(' ');
     }
 
+    var associationMade = false;
     function findRecipes(ingredientIDs, res) {
+        // Generate associations
+        if(!associationMade) {
+
+            db.Recipe.hasMany(db.RecipeIngredient, {
+                foreignKey: "",
+                as: "ri"
+            });
+    
+            db.Ingredient.hasMany(db.RecipeIngredient, {
+                foreignKey: "",
+                as: "i"
+            });
+            associationMade = true;
+        }
+
         // Find recipes that match ingredientIDs
-        db.RecipeIngredient.findAll({
-            where: {
-                $or: [{
-                    ingredientId: ingredientIDs
-                }]
-            }
-        }).then(function (recipeIngredients) {
-            var recipeMatches = {};
-            function RecipeMatch(name, id, numMatches, matches) {
-                this.name = name;
-                this.id = id;
-                this.numMatches = numMatches;
-                this.matches = matches;
-            }
-
-            for (var idx = 0; idx < recipeIngredients.length; idx++) {
-                var ri = recipeIngredients[idx];
-                var formalIngredientName = titleCase(ri.ingredientName);
-                var formalRecipeName = titleCase(ri.recipeName);
-
-                var match;
-
-                // If the recipe has already been seen
-                if (recipeMatches[ri.recipeId]) {
-                    match = recipeMatches[ri.recipeId];
-                }
-                // If the recipe has not been seen yet   
-                else {
-                    match = new RecipeMatch(formalRecipeName, ri.recipeId, 0, []);
+        db.Recipe.findAll({
+            include: [{
+                    model: db.RecipeIngredient,
+                    as: "ri",
+                    required: true,
+                    attributes: [],
+                    where: {
+                        ingredientId: ingredientIDs
+                    },
+                },
+                {
+                    model: db.Ingredient,
+                    as: "Ingredients",
+                    required: true,
+                },
+            ]
+        }).then(function (recipeMatches) {
+            var recipes = [];
+            for (r of recipeMatches) {
+                var recipeItem = {
+                    id: r.id,
+                    name: r.name,
+                    numMatches: r.Ingredients.length
                 }
 
-                match.numMatches++;
-                newMatch.matches.push({ ingredientName: formalIngredientName });
-                recipeMatches[ri.recipeId] = match;
+                var ingredientMatches = [];
+                for (i of r.Ingredients) {
+                    var ingredientMatch = {
+                        ingredientName: titleCase(i.name)
+                    }
+                    ingredientMatches.push(ingredientMatch);
+                }
+
+                recipeItem.matches = ingredientMatches;
+                recipes.push(recipeItem);
             }
 
-            res.json(recipeMatches);
+            res.json(recipes);
         });
 
     }
 
     // GET route for getting all of ingredients by category 
-    app.get("/api/ingredients", function (req, res) {
-        db.Ingredient.findAll({}).then(function (ingredients) {
-            res.json(ingredients);
-        });
+    app.get("/api/ingredients/:id?", function (req, res) {
+        var id = req.params.id;
+        if (id) {
+            db.Ingredient.findOne({
+                where: {
+                    id: id
+                }
+            }).then(function (ingredient) {
+                ingredient.name = titleCase(ingredient.name);
+                res.json(ingredient);
+            });
+        } else {
+            db.Ingredient.findAll({}).then(function (ingredients) {
+                for(var idx = 0; idx < ingredients.length; idx++) {
+                    ingredients[idx].name = titleCase(ingredients[idx].name);
+                }
+
+                res.json(ingredients);
+            });
+        }
     });
 
     app.get("/api/:userToken/fridge", function (req, res) {
@@ -77,6 +122,12 @@ module.exports = function (app) {
         });
     });
 
+    app.get("/api/custom/recipes", function (req, res) {
+        var ingredientIDs = req.query.ingredientsStr.split(";");
+        findRecipes(ingredientIDs, res);
+
+    });
+
     app.get("/api/:userToken/recipes", function (req, res) {
         var userToken = req.params.userToken;
         db.User.findOne({
@@ -90,11 +141,6 @@ module.exports = function (app) {
 
     });
 
-    app.get("/api/custom/recipes", function (req, res) {
-        var ingredientIDs = req.body.split(";");
-        findRecipes(ingredientIDs, res);
-
-    });
 
     app.get("/api/recipes", function (req, res) {
 
@@ -102,6 +148,10 @@ module.exports = function (app) {
             res.json(recipes);
         });
 
+    });
+
+    app.get("/api/cuisines", function (req, res) {
+        res.json(cuisines);
     });
 
     app.delete("/api/:userToken/fridge", function (req, res) {
@@ -120,12 +170,11 @@ module.exports = function (app) {
 
             db.User.update({
                 ingredients: ingredients.join(";")
-            },
-                {
-                    where: {
-                        token: userToken
-                    }
-                });
+            }, {
+                where: {
+                    token: userToken
+                }
+            });
             res.json({});
         });
 
@@ -166,50 +215,41 @@ module.exports = function (app) {
         var ingredients = JSON.parse(req.body.ingredients);
         db.Recipe.create(recipeInfo).then(function (newRecipe) {
             var recipeID = newRecipe.id;
+            var recipeName = newRecipe.name;
 
             // 
             // Add RecipeIngredient's to Database 
             // 
-            db.Ingredient.findAll({}).then(function (existingIngredients) {
 
-                // Get all current Ingredient's and create searchup object
-                var igCatalog = {};
-                for (eIngredient of existingIngredients) {
-                    igCatalog[eIngredient.name] = eIngredient;
+            // Initialize an array to store all  RecipeIngredients "recipeIngredients"
+            var recipeIngredients = [];
+            // Initialize an array to store all uncreated Ingredients "newIngredients"
+            var newIngredientNames = [];
+
+            // iterate through "ingredients" and assign to "oldIngredients" and  "newIngredients" as appropriate
+            for (i of ingredients) {
+                // If ingredient already exists in the database
+                var lowerName = i.name.toLowerCase();
+                if (igCatalog[lowerName]) {
+                    i.ingredientId = igCatalog[lowerName].id;
+                    i.recipeId = recipeID;
+                    i.recipeName = recipeName;
+                    i.ingredientName = lowerName;
+                    recipeIngredients.push(i);
                 }
-
-                // Initialize an array to store all  RecipeIngredients "recipeIngredients"
-                var recipeIngredients = [];
-                // Initialize an array to store all uncreated Ingredients "newIngredients"
-                var newIngredients = [];
-                var newIngredientNames = [];
-
-                // iterate through "ingredients" and assign to "oldIngredients" and  "newIngredients" as appropriate
-                for (i of ingredients) {
-                    // If ingredient already exists in the database
-                    if (igCatalog[i.name.toLowerCase()]) {
-                        i.ingredientId = igCatalog[i.name.toLowerCase()].id;
-                        i.recipeId = recipeID;
-                        recipeIngredients.push(i);
-                    }
-                    // If ingredient does not exist yet
-                    else {
-                        i.recipeId = recipeID;
-                        newIngredients.push(i);
-                        newIngredientNames.push({ name: i.name.toLowerCase() });
-                    }
+                // If ingredient does not exist yet
+                else {
+                    newIngredientNames.push({
+                        name: i.name.toLowerCase()
+                    });
                 }
-                // Bulk create newIngredients in Ingredient Table
+            }
 
-                db.Ingredient.bulkCreate(newIngredientNames).then(function (arr) {
-                    for (var idx = 0; idx < newIngredients.length; i++) {
-                        newIngredients[idx].ingredientId = arr[idx].id;
-                    }
-                    // Then bulk create all ingredients in RecipeIngredientTable
-                    recipeIngredients.concat(newIngredients);
-                    db.RecipeIngredient.create(recipeIngredients).then(function (data) {
-                        res.json(data);
-                    })
+            // Bulk create RecipeIngredient Table
+            db.RecipeIngredient.bulkCreate(recipeIngredients).then(function (data) {
+                res.json({
+                    added: data,
+                    notAdded: newIngredientNames
                 });
             })
 

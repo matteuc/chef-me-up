@@ -7,6 +7,8 @@ $(document).ready(function () {
     var fridgeContent = $("#fridge-content");
     var emptyMsg = $("#empty-fridge-msg");
 
+    var igCatalog = {};
+
     function loadIngredients() {
 
         $.get("/api/ingredients", function (data) {
@@ -25,7 +27,10 @@ $(document).ready(function () {
                     name: ingredient.name
                 };
 
+                igCatalog[ingredient.name.toLowerCase()] = ingredient.id;
+
                 var ingredientPartial = Handlebars.templates.ingredient(ingredientInfo);
+                $(ingredientPartial).hide();
                 fridgeContent.append(ingredientPartial);
 
             })
@@ -38,14 +43,18 @@ $(document).ready(function () {
         var addStatus = $("#add-ingredient-btn").attr("data-add");
 
         function markIngredientElements(ingredientIDs) {
+ 
             // Mark the ingredients on the DOM
             $.each(ingredientIDs, function (idx, ingredientID) {
                 if(ingredientID !== "") {
+                     // Mark ingredient block as unchecked
+                    $(`.ingredient-block[data-id="${ingredientID}"]`).attr("data-checked", "true");
                     $(`.ingredient-checkbox[data-id="${ingredientID}"]`).prop('checked', true);
                 }
             });
             if(addStatus == "false") {
                 hideUnmarked();
+                showMarked();
             }
         }
 
@@ -68,7 +77,10 @@ $(document).ready(function () {
             if (ingredients) {
                 var ingredientIDs = ingredients.split(";");
                 markIngredientElements(ingredientIDs);
-
+            } else {
+                hideUnmarked();
+                showMarked();
+                emptyMsg.show();
             }
         }
     }
@@ -87,20 +99,44 @@ $(document).ready(function () {
          return arr;
     }
 
+    function hideAll() {
+        $(".ingredient-block").hide();
+    }
+
+    function showMarked() {
+        $('.ingredient-block[data-checked="true"]').show();
+    }
+
     function hideUnmarked() {
-        var ingredientCheckboxes = $('.ingredient-checkbox:checkbox:not(:checked)');
-        $.each(ingredientCheckboxes, function (idx, ingredientCheckbox) {
-            var id = $(ingredientCheckbox).attr("data-id");
-            $(`.ingredient-block[data-id="${id}"`).hide();
-        })
+        $('.ingredient-block[data-checked="false"]').hide();
+
+        // var ingredientCheckboxes = $('.ingredient-checkbox:checkbox:not(:checked)');
+        // $.each(ingredientCheckboxes, function (idx, ingredientCheckbox) {
+        //     var id = $(ingredientCheckbox).attr("data-id");
+        //     $(`.ingredient-block[data-id="${id}"`).hide();
+        // })
+
+        var numChecked = $('.ingredient-checkbox:checkbox:checked').length;
+        if (numChecked == 0) {
+            emptyMsg.show();
+        } else {
+            emptyMsg.hide();
+        }
     }
 
     function showUnmarked() {
+        $('.ingredient-block[data-checked="false"]').show();
+
         var ingredientCheckboxes = $('.ingredient-checkbox:checkbox:not(:checked)');
-        $.each(ingredientCheckboxes, function (idx, ingredientCheckbox) {
-            var id = $(ingredientCheckbox).attr("data-id");
-            $(`.ingredient-block[data-id="${id}"`).show();
-        })
+        if(ingredientCheckboxes.length) {
+            emptyMsg.hide();
+        }
+        
+        // $.each(ingredientCheckboxes, function (idx, ingredientCheckbox) {
+        //     var id = $(ingredientCheckbox).attr("data-id");
+        //     $(`.ingredient-block[data-id="${id}"`).show();
+        // })
+
     }
 
     $("#sync-fridge-btn").click(function (e) {
@@ -113,17 +149,30 @@ $(document).ready(function () {
         var addStatus = $(this).attr("data-add");
         // Get all ingredient elements that are currently not checked
         if (addStatus == "true") {
+            // HIDE SEARCHBAR
+            $("#ig-search").hide();
+            $("#ig-search-input").val("");
+            $("#ig-search-error").hide();
+
             // If unadded ingredients are currently showing, hide them
-            hideUnmarked();
+
             $(this).removeClass("text-danger fa-minus-square")
             $(this).addClass("text-success fa-plus-square")
             $(this).attr("data-add", "false");
+            hideUnmarked();
+            showMarked();
+            
         } else {
+            // SHOW SEARCHBAR
+            $("#ig-search").show();
+            emptyMsg.hide();
+            hideAll();
+
             // If not, show all unadded ingredients
-            showUnmarked();
             $(this).removeClass("text-success fa-plus-square")
             $(this).addClass("text-danger fa-minus-square")
             $(this).attr("data-add", "true");
+            
         }
     })
 
@@ -133,8 +182,11 @@ $(document).ready(function () {
         var addStatus = $("#add-ingredient-btn").attr("data-add");
 
         if ($(this).prop("checked") == false) {
+            // Mark ingredient block as unchecked
+            $(`.ingredient-block[data-id="${ingredientID}"]`).attr("data-checked", "false");
             if(addStatus == "false") {
                 hideUnmarked();
+                showMarked();
             }
             if (userToken) {
                 // Make an API DELETE request 
@@ -154,6 +206,9 @@ $(document).ready(function () {
                 }
             }
         } else {
+            // Mark ingredient block as checked
+            $(`.ingredient-block[data-id="${ingredientID}"]`).attr("data-checked", "true")
+
             if (userToken) {
                 // Make an API POST request 
                 $.ajax({
@@ -174,6 +229,29 @@ $(document).ready(function () {
                 }
             }
         }
+    })
+
+    $("#ig-search-input").on('input', function(){
+        var igInput = $(this).val();
+        hideAll();
+        $("#ig-search-error").hide();
+
+        if(igInput == "") {
+            hideAll();
+            return;
+        } 
+
+        for(i in igCatalog) {
+            if(i.includes(igInput.toLowerCase())) {
+                $(`.ingredient-block[data-id="${igCatalog[i]}"]`).show();
+            }
+        }
+
+        if($(".ingredient-block:visible").length == 0) {
+            $("#error-ig-name").text(igInput);
+            $("#ig-search-error").show();
+        }
+
     })
 
     // Load ingredients when page loads

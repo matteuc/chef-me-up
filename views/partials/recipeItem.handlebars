@@ -5,20 +5,26 @@
       {{name}}
     </span>
     <div>
-      <span class="badge badge-info">{{numMatches}}</span>
-      <i data-link="/recipes/{{id}}" class="fas fa-info-circle fa-lg"></i>
-      <i class="fas fa-caret-down fa-lg"></i>
+      {{#if numMatches}}
+      <span class="badge badge-success">{{numMatches}}</span>&nbsp;<span class="text-muted">matches</span>
+      {{/if}}
+      {{!-- <i class="fas fa-caret-down"></i> --}}
     </div>
   </div>
 
   <div id="collapse-{{id}}" class="collapse" aria-labelledby="heading-{{id}}">
     <div class="card-body text-center">
+       <button data-link="/recipes/{{id}}" type="button" class="btn btn-info btn-block">View recipe&nbsp;&nbsp;<i class="fas fa-info-circle fa-sm"></i></button>
+      {{#if numMatches}}
+       <br>
       <p class="font-italic">You currently have <span class="text-success font-weight-bold">{{numMatches}}</span> of this recipe's ingredients!</p>
       <ul class="list-group">
       {{#each matches}}
         <li class="list-group-item">{{ingredientName}}</li>
       {{/each}}
       </ul>
+      {{/if}}
+
     </div>
   </div>
 </div>

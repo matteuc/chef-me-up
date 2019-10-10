@@ -23,8 +23,12 @@ $(document).ready(function() {
     clickedItem.addClass("active");
   });
 
-  $("[data-link]").click(function() {
+  $(document).on("click", "[data-link]", function() {
     window.location.href = $(this).attr("data-link");
     return false;
   });
+
+  $(function () {
+    $('[data-toggle="popover"]').popover()
+  })
 });

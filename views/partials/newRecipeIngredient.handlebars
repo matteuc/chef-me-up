@@ -1,15 +1,19 @@
-<div class="new-ingredient-block form-row">
-    <div class="form-group col-sm-6">
+<div data-id={{idx}} class="new-ingredient-block form-row">
+    <div class="form-group col-6">
         <label for="new-recipe-ingredient-name-{{idx}}">Name</label>
-        <input type="text" class="form-control" id="new-recipe-ingredient-name-{{idx}}">
+        <input placeholder="Click to add an ingredient!" type="text" class="new-recipe-ingredient-name-input form-control"
+            id="new-recipe-ingredient-name-{{idx}}" data-toggle="manual" data-container="body" data-placement="top"
+            data-content="" readonly>
     </div>
-    <div class="form-group col-sm-3">
+    <div class="form-group col-3">
         <label for="new-recipe-ingredient-quantity-{{idx}}">Quantity</label>
-        <input type="number" class="form-control" id="new-recipe-quantity-{{idx}}">
+        <input type="number" class="form-control" id="new-recipe-ingredient-quantity-{{idx}}" data-toggle="manual"
+            data-container="body" data-placement="top" data-content="">
     </div>
-    <div class="form-group col-sm-3">
+    <div class="form-group col-2">
         <label for="new-recipe-ingredient-unit-{{idx}}">Unit</label>
-        <select id="new-recipe-ingredient-unit-{{idx}}" class="form-control">
+        <select id="new-recipe-ingredient-unit-{{idx}}" class="form-control" data-toggle="manual" data-container="body"
+            data-placement="top" data-content="">
             <option selected>tsp</option>
             <option>tbsp</option>
             <option>oz</option>
@@ -19,5 +23,8 @@
             <option>cup(s)</option>
             <option>mL</option>
         </select>
+    </div>
+    <div class="form-group col-1">
+        <i data-id="{{idx}}" class="delete-ingredient-btn fas fa-trash-alt"></i>
     </div>
 </div>
