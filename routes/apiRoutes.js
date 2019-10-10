@@ -2,7 +2,7 @@
 /* eslint-disable prettier/prettier */
 var db = require("../models");
 
-module.exports = function (app) {
+module.exports = function(app) {
     function titleCase(str) {
         var splitStr = str.toLowerCase().split(' ');
         for (var i = 0; i < splitStr.length; i++) {
@@ -22,8 +22,9 @@ module.exports = function (app) {
                     ingredientId: ingredientIDs
                 }]
             }
-        }).then(function (recipeIngredients) {
+        }).then(function(recipeIngredients) {
             var recipeMatches = {};
+
             function RecipeMatch(name, id, numMatches, matches) {
                 this.name = name;
                 this.id = id;
@@ -57,61 +58,61 @@ module.exports = function (app) {
 
     }
 
-    // GET route for getting all of ingredients by category 
-    app.get("/api/ingredients", function (req, res) {
-        db.Ingredient.findAll({}).then(function (ingredients) {
+    // GET route for getting all of ingredients 
+    app.get("/api/ingredients", function(req, res) {
+        db.Ingredient.findAll({}).then(function(ingredients) {
             res.json(ingredients);
         });
     });
 
-    app.get("/api/:userToken/fridge", function (req, res) {
+    app.get("/api/:userToken/fridge", function(req, res) {
         var userToken = req.params.userToken;
         var ingredientIDs;
         db.User.findOne({
             where: {
                 token: userToken
             }
-        }).then(function (userInfo) {
+        }).then(function(userInfo) {
             ingredientIDs = userInfo.ingredients.split(";");
             res.json(ingredientIDs);
         });
     });
 
-    app.get("/api/:userToken/recipes", function (req, res) {
+    app.get("/api/:userToken/recipes", function(req, res) {
         var userToken = req.params.userToken;
         db.User.findOne({
             where: {
                 token: userToken
             }
-        }).then(function (userInfo) {
+        }).then(function(userInfo) {
             ingredientIDs = userInfo.ingredients.split(";");
             findRecipes(ingredientIDs, res);
         });
 
     });
 
-    app.get("/api/custom/recipes", function (req, res) {
+    app.get("/api/custom/recipes", function(req, res) {
         var ingredientIDs = req.body.split(";");
         findRecipes(ingredientIDs, res);
 
     });
 
-    app.get("/api/recipes", function (req, res) {
+    app.get("/api/recipes", function(req, res) {
 
-        db.Recipe.findAll({}).then(function (recipes) {
+        db.Recipe.findAll({}).then(function(recipes) {
             res.json(recipes);
         });
 
     });
 
-    app.delete("/api/:userToken/fridge", function (req, res) {
+    app.delete("/api/:userToken/fridge", function(req, res) {
         var userToken = req.params.userToken;
         var ingredientID = req.body.id;
         db.User.findOne({
             where: {
                 token: userToken
             }
-        }).then(function (userInfo) {
+        }).then(function(userInfo) {
             var ingredients = userInfo.ingredients.split(";");
             var idx = ingredients.indexOf(ingredientID);
             if (idx > -1) {
@@ -120,25 +121,24 @@ module.exports = function (app) {
 
             db.User.update({
                 ingredients: ingredients.join(";")
-            },
-                {
-                    where: {
-                        token: userToken
-                    }
-                });
+            }, {
+                where: {
+                    token: userToken
+                }
+            });
             res.json({});
         });
 
     });
 
-    app.post("/api/:userToken/fridge", function (req, res) {
+    app.post("/api/:userToken/fridge", function(req, res) {
         var userToken = req.params.userToken;
         var ingredientID = req.body.id;
         db.User.findOne({
             where: {
                 token: userToken
             }
-        }).then(function (userInfo) {
+        }).then(function(userInfo) {
 
             var ingredients = userInfo.ingredients.split(";");
             ingredients.push(ingredientID);
@@ -150,7 +150,7 @@ module.exports = function (app) {
                 where: {
                     token: userToken
                 }
-            }).then(function () {
+            }).then(function() {
 
                 res.json({});
             });
@@ -158,19 +158,19 @@ module.exports = function (app) {
 
     });
 
-    app.post("/api/:userToken/recipes", function (req, res) {
+    app.post("/api/:userToken/recipes", function(req, res) {
         // Add recipe to database with userToken as a foreign key
         var userToken = req.params.userToken;
         var recipeInfo = JSON.parse(req.body.info);
         recipeInfo.UserToken = userToken;
         var ingredients = JSON.parse(req.body.ingredients);
-        db.Recipe.create(recipeInfo).then(function (newRecipe) {
+        db.Recipe.create(recipeInfo).then(function(newRecipe) {
             var recipeID = newRecipe.id;
 
             // 
             // Add RecipeIngredient's to Database 
             // 
-            db.Ingredient.findAll({}).then(function (existingIngredients) {
+            db.Ingredient.findAll({}).then(function(existingIngredients) {
 
                 // Get all current Ingredient's and create searchup object
                 var igCatalog = {};
@@ -201,13 +201,13 @@ module.exports = function (app) {
                 }
                 // Bulk create newIngredients in Ingredient Table
 
-                db.Ingredient.bulkCreate(newIngredientNames).then(function (arr) {
+                db.Ingredient.bulkCreate(newIngredientNames).then(function(arr) {
                     for (var idx = 0; idx < newIngredients.length; i++) {
                         newIngredients[idx].ingredientId = arr[idx].id;
                     }
                     // Then bulk create all ingredients in RecipeIngredientTable
                     recipeIngredients.concat(newIngredients);
-                    db.RecipeIngredient.create(recipeIngredients).then(function (data) {
+                    db.RecipeIngredient.create(recipeIngredients).then(function(data) {
                         res.json(data);
                     })
                 });
@@ -216,5 +216,34 @@ module.exports = function (app) {
         })
 
     });
+    //responds all recipes that containes at least one ingredient with the remaining ingredient 
+    //tested as api/recipeings?ids=1&ids=2
+    app.get("/api/recipeings", async(req, res) => {
+        db.Recipe.hasMany(db.RecipeIngredient, { foreignKey: "", as: "ri" });
+        db.Ingredient.hasMany(db.RecipeIngredient, { foreignKey: "", as: "i" });
 
+        var query = {};
+        if (req.query.ids) {
+            query.ids = req.query.ids;
+        }
+
+        var _q = db.Recipe;
+        await _q.findAll({
+            include: [{
+                    model: db.RecipeIngredient,
+                    as: "ri",
+                    required: true,
+                    attributes: [],
+                    where: {
+                        ingredientId: query.ids
+                    },
+
+                },
+
+                { model: db.Ingredient, as: "Ingredients", required: true, },
+            ]
+        }).then(function(matchrecipes) {
+            res.json(matchrecipes);
+        });
+    });
 };
