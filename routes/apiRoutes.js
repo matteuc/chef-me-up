@@ -109,14 +109,14 @@ module.exports = function (app) {
         }
     });
 
-    app.get("/api/:userToken/fridge", function (req, res) {
+    app.get("/api/:userToken/fridge", function(req, res) {
         var userToken = req.params.userToken;
         var ingredientIDs;
         db.User.findOne({
             where: {
                 token: userToken
             }
-        }).then(function (userInfo) {
+        }).then(function(userInfo) {
             ingredientIDs = userInfo.ingredients.split(";");
             res.json(ingredientIDs);
         });
@@ -134,7 +134,7 @@ module.exports = function (app) {
             where: {
                 token: userToken
             }
-        }).then(function (userInfo) {
+        }).then(function(userInfo) {
             ingredientIDs = userInfo.ingredients.split(";");
             findRecipes(ingredientIDs, res);
         });
@@ -142,9 +142,9 @@ module.exports = function (app) {
     });
 
 
-    app.get("/api/recipes", function (req, res) {
+    app.get("/api/recipes", function(req, res) {
 
-        db.Recipe.findAll({}).then(function (recipes) {
+        db.Recipe.findAll({}).then(function(recipes) {
             res.json(recipes);
         });
 
@@ -161,7 +161,7 @@ module.exports = function (app) {
             where: {
                 token: userToken
             }
-        }).then(function (userInfo) {
+        }).then(function(userInfo) {
             var ingredients = userInfo.ingredients.split(";");
             var idx = ingredients.indexOf(ingredientID);
             if (idx > -1) {
@@ -180,14 +180,14 @@ module.exports = function (app) {
 
     });
 
-    app.post("/api/:userToken/fridge", function (req, res) {
+    app.post("/api/:userToken/fridge", function(req, res) {
         var userToken = req.params.userToken;
         var ingredientID = req.body.id;
         db.User.findOne({
             where: {
                 token: userToken
             }
-        }).then(function (userInfo) {
+        }).then(function(userInfo) {
 
             var ingredients = userInfo.ingredients.split(";");
             ingredients.push(ingredientID);
@@ -199,7 +199,7 @@ module.exports = function (app) {
                 where: {
                     token: userToken
                 }
-            }).then(function () {
+            }).then(function() {
 
                 res.json({});
             });
@@ -207,13 +207,13 @@ module.exports = function (app) {
 
     });
 
-    app.post("/api/:userToken/recipes", function (req, res) {
+    app.post("/api/:userToken/recipes", function(req, res) {
         // Add recipe to database with userToken as a foreign key
         var userToken = req.params.userToken;
         var recipeInfo = JSON.parse(req.body.info);
         recipeInfo.UserToken = userToken;
         var ingredients = JSON.parse(req.body.ingredients);
-        db.Recipe.create(recipeInfo).then(function (newRecipe) {
+        db.Recipe.create(recipeInfo).then(function(newRecipe) {
             var recipeID = newRecipe.id;
             var recipeName = newRecipe.name;
 
@@ -256,5 +256,6 @@ module.exports = function (app) {
         })
 
     });
+    
 
 };
