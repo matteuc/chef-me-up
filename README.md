@@ -14,7 +14,6 @@
 * [MySQL] - to store user info, ingredient and recipes data
 * [Sequalizer ORM] - to communicate to our db
 * [Heroku] - to deploy app
-* [lodash](https://lodash.com) - API used to sort results in Ascending date order
 * [Handlebars and Partials] - as template engine
 * [passport and session] - to authenticate user 
 
