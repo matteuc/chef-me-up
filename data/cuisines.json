@@ -1,5 +1,9 @@
-[{
+[
+    {
         "name": "American"
+    },
+    {
+        "name": "Arabic"
     },
     {
         "name": "Brazilian"
@@ -45,6 +49,9 @@
     },
     {
         "name": "Irish"
+    },
+    {
+        "name": "Italian"
     },
     {
         "name": "Japanese"

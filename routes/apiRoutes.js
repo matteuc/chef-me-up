@@ -148,6 +148,36 @@ module.exports = function (app) {
         });
     });
 
+    app.get("/api/:userToken/favorites", function (req, res) {
+        var userToken = req.params.userToken;
+        var favoriteIDs;
+        db.User.findOne({
+            where: {
+                token: userToken
+            }
+        }).then(function (userInfo) {
+            favoriteIDs = userInfo.favorites.split(";");
+            db.Recipe.findAll({
+                where: {
+                    id: favoriteIDs
+                }
+            }).then(function(favRecipesData) {
+                var favRecipes = [];
+
+                for (r of favRecipesData) {    
+                    var recipeItem = {
+                        id: r.id,
+                        name: r.name
+                    }
+    
+                    favRecipes.push(recipeItem);
+                }
+
+                res.json(favRecipes);
+            })
+        });
+    });
+
     app.get("/api/custom/recipes", function (req, res) {
         var ingredientIDs = req.query.ingredientsStr.split(";");
         findRecipes(ingredientIDs, res);
@@ -208,6 +238,32 @@ module.exports = function (app) {
 
     });
 
+    app.delete("/api/:userToken/favorites", function (req, res) {
+        var userToken = req.params.userToken;
+        var recipeID = req.body.id;
+        db.User.findOne({
+            where: {
+                token: userToken
+            }
+        }).then(function (userInfo) {
+            var favorites = userInfo.favorites.split(";");
+            var idx = favorites.indexOf(recipeID);
+            if (idx > -1) {
+                favorites.splice(idx, 1);
+            }
+
+            db.User.update({
+                favorites: favorites.join(";")
+            }, {
+                where: {
+                    token: userToken
+                }
+            });
+            res.json({});
+        });
+
+    });
+
     app.post("/api/:userToken/fridge", function (req, res) {
         var userToken = req.params.userToken;
         var ingredientID = req.body.id;
@@ -223,6 +279,33 @@ module.exports = function (app) {
 
             db.User.update({
                 ingredients: product
+            }, {
+                where: {
+                    token: userToken
+                }
+            }).then(function () {
+
+                res.json({});
+            });
+        });
+
+    });
+
+    app.post("/api/:userToken/favorites", function (req, res) {
+        var userToken = req.params.userToken;
+        var recipeID = req.body.id;
+        db.User.findOne({
+            where: {
+                token: userToken
+            }
+        }).then(function (userInfo) {
+
+            var favorites = userInfo.favorites.split(";");
+            favorites.push(recipeID);
+            var product = favorites.join(";");
+
+            db.User.update({
+                favorites: product
             }, {
                 where: {
                     token: userToken

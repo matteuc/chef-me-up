@@ -1,14 +1,22 @@
-$(document).ready(function() {
-    var loginAlertFavorites = `<div class="text-center">\
-    <h5>To favorite recipes, please login:</h5>
-    <a href="/auth/google">\
-      <img class="img-fluid login-btn" src="images/login-google.png">\
-    </a>\
-</div>`;
-    
-    // bootbox.alert({
-    //     message: loginAlertFavorites,
-    //     centerVertical: true,
-    //     closeButton: false
-    // })
+$(document).ready(function () {
+  var userToken = $("#userToken").attr("data-token");
+
+  $(document).on("click", ".favorite-btn", function () {
+    var recipeID = $(this).attr("data-id");
+
+    // Mark ingredient block as unchecked
+    $(`.favorite-block[data-id="${recipeID}"]`).remove();
+
+    if (userToken) {
+      // Make an API DELETE request 
+      $.ajax({
+        url: `/api/${userToken}/favorites`,
+        type: "DELETE",
+        data: {
+          id: recipeID
+        }
+      });
+
+    }
+  })
 });

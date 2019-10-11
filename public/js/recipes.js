@@ -227,7 +227,7 @@ $(document).ready(function () {
             var recipeCook = $("#new-recipe-cook").val();
 
             if (recipeCuisine == "Choose...") {
-                recipeCuisine = "";
+                recipeCuisine = "General";
             }
 
             // GET ALL INGREDIENTS
