@@ -1,75 +1,129 @@
-<style>
-    h1 {
-        text-align: center;
-        font-size: 50px;
+{{!-- <script async="true" src="https://cdn.whisk.com/sdk/shopping-list.js" type="text/javascript">
+</script>
+<script>
+    var whisk = whisk || {};
+    whisk.queue = whisk.queue || [];
+</script> --}}
+<script async="true" src="https://cdn.whisk.com/sdk/shopping-list.js" type="text/javascript"></script>
+<script>
+    var whisk = whisk || {};
+    whisk.queue = whisk.queue || [];
 
-    }
+    whisk.queue.push(function () {
+        whisk.shoppingList.defineWidget("BIVR-DPZT-FJMP-YPEJ", {
+            styles: {
+                button: {
+                    borderRadius: 6
+                }
+            }
+        });
+    });
+</script>
 
-    h2 {
-        font-size: 25px;
-    }
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card text-center">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span></span>
+                <div id="name-block">
+                    <h4>
+                        {{name}}
+                    </h4>
+                    <p class="text-muted mb-0" style="font-size: 0.8em">
+                        {{cuisine}} | By {{author}} on {{createdOn}}
+                    </p>
+                </div>
+                <span></span>
 
-    h3 {
-        text-align: center;
-    }
+            </div>
 
-    .recipe-stuff {
-        border: 2px solid #F26400;
-        border-radius: 15px;
-        text-align: center;
-        padding: 5px;
+            <div class="card-body">
+                <div class="row justify-content-center mb-3">
+                    <span class="font-italic text-muted" style="font-size: 0.9em">
+                        {{description}}
+                    </span>
+                </div>
+                <div class="row">
+                    <div class="col-4" style="border-right: 1px solid gray">
+                        <p class="font-weight-bold mb-1 recipe-subTitle" style="font-size: .9em">Servings</p>
+                        <p class="mb-0" style="font-size: .8em">
+                            {{serving}} servings
+                        </p>
+                        <i class="text-muted fas fa-utensil-spoon"></i>
 
-    }
+                    </div>
+                    <div class="col-4" style="border-right: 1px solid gray">
+                        <p class="font-weight-bold mb-1 recipe-subTitle" style="font-size: .9em">Prep. Time</p>
+                        <p class="mb-0" style="font-size: .8em">
+                            {{prep}} min.
+                        </p>
+                        <i class="text-muted far fa-clock"></i>
 
-    .steps-list .list-group-item {
-        display: list-item;
-    }
-</style>
-<div class="recipeTitle">
-    <h2> Broccoli Soup</h1>
+                    </div>
+                    <div class="col-4">
+                        <p class="font-weight-bold mb-1 recipe-subTitle" style="font-size: .9em">Cook Time</p>
+                        <p class="mb-0" style="font-size: .8em">
+                            {{cook}} min.
+                        </p>
+                        <i class="text-muted fas fa-fire-alt"></i>
+                    </div>
+                </div>
+                <hr>
+                <div class="row" id="ig-block">
+                    <div class="col-sm-5" id="ig-list">
+                        <p class="font-weight-bold recipe-subTitle">
+                            Ingredients
+                        </p>
+
+                        {{#each ingredients}}
+
+                        <p class="mb-2">
+                            <span class="font-italic">{{quantity}} {{unit}}</span>
+                            <span class="text-success">&nbsp;{{igName}}</span>
+                        </p>
+
+                        {{/each}}
+                        {{!-- WHISK BLOCK --}}
+                        <div id="BIVR-DPZT-FJMP-YPEJ">
+                            <script>
+                                whisk.queue.push(function () {
+                                    whisk.display("BIVR-DPZT-FJMP-YPEJ");
+                                });
+                            </script>
+                        </div>
+
+                        <hr class="d-block d-sm-none">
+                    </div>
+                    <div class="col-sm-offset-1 col-sm-6" id="in-list">
+                        <p class="font-weight-bold recipe-subTitle">
+                            Instructions
+                        </p>
+                        <ol>
+                            {{#each instructions as |i|}}
+                            <li>{{i}}</li>
+
+                            {{/each}}
+                        </ol>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
 </div>
-<br>
-<div class="container">
-    <div class="row recipe-stuff">
-        <div class="col-sm">
-            <h2>Yields</h2>
-            <div class="yields">
-                Serving
-            </div>
-        </div>
-        <div class="col-sm">
-            <h2>Prep Time</h2>
-            <div class="prepTime">
-                Minutes
-            </div>
-        </div>
-        <div class="col-sm">
-            <h2>Total Time</h2>
-            <div class="totalTime">
-                Minutes
-            </div>
-        </div>
-    </div>
-    <br>
-    <h3>Ingredients</h3>
-    <div class="listIng">
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">Cras justo odio</li>
-            <li class="list-group-item">Dapibus ac facilisis in</li>
-            <li class="list-group-item">Morbi leo risus</li>
-            <li class="list-group-item">Porta ac consectetur ac</li>
-            <li class="list-group-item">Vestibulum at eros</li>
-        </ul>
-    </div>
-    <br>
-    <h3>Steps</h3>
-    <div class="steps-list">
-        <ol class="list-group list-group-flush">
-            <li class="list-group-item">Cras justo odio</li>
-            <li class="list-group-item">Dapibus ac facilisis in</li>
-            <li class="list-group-item">Morbi leo risus</li>
-            <li class="list-group-item">Porta ac consectetur ac</li>
-            <li class="list-group-item">Vestibulum at eros</li>
-        </ol>
-    </div>
-</div>
+
+
+<span id="recipe-url" class="d-none">{{url}}</span>
+
+{{!-- <script>
+    whisk.queue.push(function () {
+        whisk.listeners.addClickListener("ig-block", "shoppingList.addRecipeToList", {
+            recipeUrl: $("#recipe-url").text(),
+        });
+    });
+</script>  --}}

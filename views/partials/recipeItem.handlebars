@@ -24,6 +24,15 @@
       {{/each}}
       </ul>
       {{/if}}
+       {{#if numMissing}}
+       <br>
+      <p class="font-italic">You currently do not have <span class="text-danger font-weight-bold">{{numMissing}}</span> of this recipe's ingredients!</p>
+      <ul class="list-group">
+      {{#each missing}}
+        <li class="list-group-item">{{ingredientName}}</li>
+      {{/each}}
+      </ul>
+      {{/if}}
 
     </div>
   </div>

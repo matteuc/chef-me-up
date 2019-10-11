@@ -108,3 +108,12 @@ a:hover {
     bottom: 11px;
     right: 0.1em;
 }
+
+.invalid-input {
+    border: 1px solid var(--main-nav-color);
+}
+
+#name-block, .recipe-subTitle {
+    font-weight: bold;
+    color: rgb(231, 146, 85);
+}

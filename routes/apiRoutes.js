@@ -5,13 +5,17 @@ var cuisines = require("../data/cuisines.json");
 
 module.exports = function (app) {
     // Get all current Ingredient's and create searchup object
-    var igCatalog;
+    var igCatalogByName = {};
+    var igCatalogById = {};
     db.Ingredient.findAll({}).then(function (existingIngredients) {
 
         // Get all current Ingredient's and create searchup object
-        igCatalog = {};
+        igCatalogByName = {};
+        igCatalogById = {};
         for (eIngredient of existingIngredients) {
-            igCatalog[eIngredient.name] = eIngredient;
+            igCatalogByName[eIngredient.name] = eIngredient;
+            igCatalogById[eIngredient.id] = eIngredient;
+
         }
     });
 
@@ -26,16 +30,41 @@ module.exports = function (app) {
         return splitStr.join(' ');
     }
 
+    function findMatches(ingredientIDs, recipeIngredients) {
+        var matchInfo = {};
+        var matches = [];
+        var missing = [];
+
+        for (ri of recipeIngredients) {
+            if (ingredientIDs.includes(ri.id.toString())) {
+                matches.push({
+                    ingredientName: titleCase(igCatalogById[ri.id].name)
+                });
+            } else {
+                missing.push({
+                    ingredientName: titleCase(igCatalogById[ri.id].name)
+                });
+            }
+
+        }
+
+        matchInfo.matches = matches;
+        matchInfo.missing = missing;
+
+        return matchInfo;
+    }
+
     var associationMade = false;
+
     function findRecipes(ingredientIDs, res) {
         // Generate associations
-        if(!associationMade) {
+        if (!associationMade) {
 
             db.Recipe.hasMany(db.RecipeIngredient, {
                 foreignKey: "",
                 as: "ri"
             });
-    
+
             db.Ingredient.hasMany(db.RecipeIngredient, {
                 foreignKey: "",
                 as: "i"
@@ -61,30 +90,27 @@ module.exports = function (app) {
                 },
             ]
         }).then(function (recipeMatches) {
+            // res.json(recipeMatches);
             var recipes = [];
             for (r of recipeMatches) {
+                var matchInfo = findMatches(ingredientIDs, r.Ingredients);
+
                 var recipeItem = {
                     id: r.id,
                     name: r.name,
-                    numMatches: r.Ingredients.length
+                    numMatches: matchInfo.matches.length,
+                    numMissing: matchInfo.missing.length,
+                    matches: matchInfo.matches,
+                    missing: matchInfo.missing
                 }
 
-                var ingredientMatches = [];
-                for (i of r.Ingredients) {
-                    var ingredientMatch = {
-                        ingredientName: titleCase(i.name)
-                    }
-                    ingredientMatches.push(ingredientMatch);
-                }
-
-                recipeItem.matches = ingredientMatches;
                 recipes.push(recipeItem);
             }
 
             res.json(recipes);
         });
 
-    }
+    };
 
     // GET route for getting all of ingredients by category 
     app.get("/api/ingredients/:id?", function (req, res) {
@@ -100,7 +126,7 @@ module.exports = function (app) {
             });
         } else {
             db.Ingredient.findAll({}).then(function (ingredients) {
-                for(var idx = 0; idx < ingredients.length; idx++) {
+                for (var idx = 0; idx < ingredients.length; idx++) {
                     ingredients[idx].name = titleCase(ingredients[idx].name);
                 }
 
@@ -109,14 +135,14 @@ module.exports = function (app) {
         }
     });
 
-    app.get("/api/:userToken/fridge", function(req, res) {
+    app.get("/api/:userToken/fridge", function (req, res) {
         var userToken = req.params.userToken;
         var ingredientIDs;
         db.User.findOne({
             where: {
                 token: userToken
             }
-        }).then(function(userInfo) {
+        }).then(function (userInfo) {
             ingredientIDs = userInfo.ingredients.split(";");
             res.json(ingredientIDs);
         });
@@ -134,7 +160,7 @@ module.exports = function (app) {
             where: {
                 token: userToken
             }
-        }).then(function(userInfo) {
+        }).then(function (userInfo) {
             ingredientIDs = userInfo.ingredients.split(";");
             findRecipes(ingredientIDs, res);
         });
@@ -142,11 +168,13 @@ module.exports = function (app) {
     });
 
 
-    app.get("/api/recipes", function(req, res) {
+    app.get("/api/recipes", function (req, res) {
 
-        db.Recipe.findAll({}).then(function(recipes) {
+
+        db.Recipe.findAll({}).then(function (recipes) {
             res.json(recipes);
         });
+
 
     });
 
@@ -161,7 +189,7 @@ module.exports = function (app) {
             where: {
                 token: userToken
             }
-        }).then(function(userInfo) {
+        }).then(function (userInfo) {
             var ingredients = userInfo.ingredients.split(";");
             var idx = ingredients.indexOf(ingredientID);
             if (idx > -1) {
@@ -180,14 +208,14 @@ module.exports = function (app) {
 
     });
 
-    app.post("/api/:userToken/fridge", function(req, res) {
+    app.post("/api/:userToken/fridge", function (req, res) {
         var userToken = req.params.userToken;
         var ingredientID = req.body.id;
         db.User.findOne({
             where: {
                 token: userToken
             }
-        }).then(function(userInfo) {
+        }).then(function (userInfo) {
 
             var ingredients = userInfo.ingredients.split(";");
             ingredients.push(ingredientID);
@@ -199,7 +227,7 @@ module.exports = function (app) {
                 where: {
                     token: userToken
                 }
-            }).then(function() {
+            }).then(function () {
 
                 res.json({});
             });
@@ -207,13 +235,13 @@ module.exports = function (app) {
 
     });
 
-    app.post("/api/:userToken/recipes", function(req, res) {
+    app.post("/api/:userToken/recipes", function (req, res) {
         // Add recipe to database with userToken as a foreign key
         var userToken = req.params.userToken;
         var recipeInfo = JSON.parse(req.body.info);
         recipeInfo.UserToken = userToken;
         var ingredients = JSON.parse(req.body.ingredients);
-        db.Recipe.create(recipeInfo).then(function(newRecipe) {
+        db.Recipe.create(recipeInfo).then(function (newRecipe) {
             var recipeID = newRecipe.id;
             var recipeName = newRecipe.name;
 
@@ -230,8 +258,8 @@ module.exports = function (app) {
             for (i of ingredients) {
                 // If ingredient already exists in the database
                 var lowerName = i.name.toLowerCase();
-                if (igCatalog[lowerName]) {
-                    i.ingredientId = igCatalog[lowerName].id;
+                if (igCatalogByName[lowerName]) {
+                    i.ingredientId = igCatalogByName[lowerName].id;
                     i.recipeId = recipeID;
                     i.recipeName = recipeName;
                     i.ingredientName = lowerName;
@@ -256,6 +284,6 @@ module.exports = function (app) {
         })
 
     });
-    
+
 
 };

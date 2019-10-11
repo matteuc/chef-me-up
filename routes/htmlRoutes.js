@@ -3,8 +3,19 @@
 /* eslint-disable no-unused-vars */
 var db = require("../models");
 var passport = require("passport");
+var moment = require("moment");
 
 module.exports = function (app) {
+  function titleCase(str) {
+    var splitStr = str.toLowerCase().split(' ');
+    for (var i = 0; i < splitStr.length; i++) {
+      // You do not need to check if i is larger than splitStr length, as your for does that for you
+      // Assign it back to the array
+      splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1);
+    }
+    // Directly return the joined string
+    return splitStr.join(' ');
+  }
   // Load fridge page
   app.get("/", function (req, res) {
     if (req.session.passport) {
@@ -42,24 +53,61 @@ module.exports = function (app) {
   app.get("/recipes/:recipeId", function (req, res) {
     var recipeId = req.params.recipeId;
 
-    db.Recipe.findAll({
+    db.Recipe.findOne({
       where: {
         id: recipeId
+      },
+      include: {
+        model: db.Ingredient,
+        as: "Ingredients",
+        attributes: ["id", "name"],
+        through: {
+          model: db.RecipeIngredient
+        }
       }
+
     }).then(function (recipe) {
-      // TODO: Fill in config with the data necessary for rendering a recipe
-      var renderConfig = {
 
-      };
+      db.User.findOne({
+        where: {
+          token: recipe.UserToken
+        }
+      }).then(function (user) {
+        var ingredients = [];
+        for (ri of recipe.Ingredients) {
+          var ingredientObj = {
+            igName: titleCase(ri.name),
+            quantity: ri.RecipeIngredient.quantity,
+            unit: ri.RecipeIngredient.unit
+          }
 
-      if (req.session.passport) {
-        var userAccount = req.session.passport.user.profile._json;
-        renderConfig.userToken = userAccount.sub;
-        renderConfig.layout = "main-auth";
-      }
+          ingredients.push(ingredientObj);
+        }
 
-      res.render("recipe", renderConfig);
-    })
+        var renderConfig = {
+          id: recipe.id,
+          name: recipe.name,
+          prep: recipe.prepTime,
+          cook: recipe.cookTime,
+          serving: recipe.servingSize,
+          cuisine: recipe.cuisine,
+          description: recipe.description,
+          createdOn: moment(recipe.createdAt).format('MMMM Do YYYY'),
+          author: user.name,
+          instructions: recipe.instructions.split(";"),
+          ingredients: ingredients,
+          url: `https://chef-me-up.herokuapp.com${req.originalUrl}`
+        };
+
+        if (req.session.passport) {
+          var userAccount = req.session.passport.user.profile._json;
+          renderConfig.userToken = userAccount.sub;
+          renderConfig.layout = "main-auth";
+        }
+        res.render("recipe", renderConfig);
+      });
+
+    });
   });
 
   // Load favorites page
@@ -103,7 +151,7 @@ module.exports = function (app) {
         db.User.create(userInfo);
       }
     });
-    
+
     res.redirect("/");
   });
 

@@ -8,31 +8,9 @@ module.exports = function(sequelize, DataTypes) {
     },
     ingredients: {
       type: DataTypes.TEXT
-      // ,
-      // get: function() {
-      //   var ingredients = this.getDataValue("ingredients").split(";");
-      //   // 'this' allows you to access attributes of the instance
-      //   return ingredients;
-      // },
-      // set: function(val) {
-      //   var ingredients = this.getDataValue("ingredients").split(";");
-      //   ingredients.push(val);
-      //   this.setDataValue("ingredients", ingredients);
-      // }
     },
     favorites: {
       type: DataTypes.TEXT
-      // ,
-      // get: function() {
-      //   var favorites = this.getDataValue("favorites").split(";");
-      //   // 'this' allows you to access attributes of the instance
-      //   return favorites;
-      // },
-      // set: function(val) {
-      //   var favorites = this.getDataValue("favorites").split(";");
-      //   favorites.push(val);
-      //   this.setDataValue("favorites", favorites);
-      // }
     }
   });
 

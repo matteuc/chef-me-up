@@ -12,9 +12,7 @@ $(document).ready(function () {
         });
     })
 
-    var newIngredientList = $("#new-ingredient-list");
     var ingredientIdx = 0;
-    var newInstructionList = $("#new-instruction-list");
     var instructionIdx = 0;
 
 
@@ -24,7 +22,6 @@ $(document).ready(function () {
     var ingredientOnly = true;
     var userTokenElement = $("#userToken");
     var userToken;
-    var igCatalog = {};
     if (userTokenElement) {
         userToken = userTokenElement.attr("data-token");
         USER_RECIPES_PATH = `/api/${userToken}/recipes`;
@@ -100,28 +97,194 @@ $(document).ready(function () {
     })
 
     $("#add-recipe-btn").click(function (e) {
-        function checkError() {
-            // PERFORM ERROR VALIDATION
-            // Show popovers over appropriate input fields
-            // REQUIRED FIELDS:
+        function noErrorFn() {
+            var errorCount = 0;
 
-            // NAME 
-            // SERVING SIZE
-            // PREP TIME
-            // COOK TIME
+            var NAME_ERROR = "You must provide a name for the recipe.";
+            var COOKPREP_ERROR = "You must provide a positive non-zero amount of time.";
+            var SERVINGS_ERROR = "You must provide a positive non-zero integer.";
+            var INAME_ERROR = "You must provide a name for the ingredient";
+            var QUANTITY_ERROR = "You must provide a positive non-zero quantity.";
+            var IN_ERROR = "You must provide a description for this instruction.";
+            var IG_MIN_ERROR = "You must provide at least one ingredient for this recipe.";
+            var IN_MIN_ERROR = "You must provide at least one instruction for this recipe.";
 
-            // FILL IN POPOVER MESSAGES
+            var rName = $("#new-recipe-name");
+            var rServing = $("#new-recipe-serving");
+            var rCook = $("#new-recipe-cook");
+            var rPrep = $("#new-recipe-prep");
 
-            // IF CUISINE SELECTED IS THE DEFAULT, SET THE VALUE OF THIS FIELD TO NULL
-            // CHECK TO SEE IF AT LEAST ONE INGREDIENT IS ENTERED
-            // CHECK TO SEE IF AT LEAST ONE INSTRUCTION IS ENTERED
-            // REMOVE ALL THE INGREDIENTS THAT HAVE THE DEFAULT PLACEHOLDER VALUE
-            return true;
+            $(".invalid-input").removeClass("invalid-input");
+
+            // Check if recipe name is empty
+            if (rName.val().trim() == "") {
+                errorCount++;
+                rName.attr("data-content", NAME_ERROR);
+                rName.addClass("invalid-input");
+                rName.popover();
+            }
+
+            // Check if serving size is a decimal or negative or zero
+            var rServingSize = rServing.val();
+            if (rServingSize <= 0 || rServingSize == null || (rServingSize % 1) !== 0 || isNaN(rServingSize)) {
+                errorCount++;
+                rServing.attr("data-content", SERVINGS_ERROR);
+                rServing.addClass("invalid-input");
+                rServing.popover();
+
+            }
+
+            // Check if cooking time is negative or zero or empty
+            var rCookTime = rCook.val();
+            if (rCookTime <= 0 || rCookTime == null || isNaN(rCookTime)) {
+                errorCount++;
+                rCook.attr("data-content", COOKPREP_ERROR);
+                rCook.addClass("invalid-input");
+                rCook.popover();
+            }
+
+            // Check if prep time is negative or zero
+            var rPrepTime = rPrep.val();
+            if (rPrepTime <= 0 || rPrepTime == null || isNaN(rPrepTime)) {
+                errorCount++;
+                rPrep.attr("data-content", COOKPREP_ERROR);
+                rPrep.addClass("invalid-input");
+                rPrep.popover();
+            }
+
+            var completeIngredients = 0;
+            for (var i = 0; i <= ingredientIdx; i++) {
+                var iName = $(`#new-recipe-ingredient-name-${i}`);
+                var iQuantity = $(`#new-recipe-ingredient-quantity-${i}`);
+                var errorCt = 0;
+
+                if (iName.attr("placeholder") == "Click to add an ingredient!") {
+                    errorCt++;
+                    iName.attr("data-content", INAME_ERROR);
+                    iName.addClass("invalid-input");
+                    iName.popover();
+                }
+
+                if (iQuantity.val() <= 0 || iQuantity.val() == null || isNaN(iQuantity.val())) {
+                    errorCt++;
+
+                    iQuantity.attr("data-content", QUANTITY_ERROR);
+                    iQuantity.addClass("invalid-input");
+                    iQuantity.popover();
+                }
+
+                if (errorCt == 0) {
+                    completeIngredients++;
+                }
+
+            }
+
+            // CHECK THERE IS AT LEAST ONE COMPLETE INGREDIENT
+            if (completeIngredients == 0) {
+                errorCount++;
+                var firstIg = $("#new-recipe-ingredient-name-0");
+                firstIg.attr("data-content", IG_MIN_ERROR);
+                firstIg.addClass("invalid-input");
+                firstIg.popover("show");
+            }
+
+            var completeInstructions = 0;
+            for (var j = 0; j <= instructionIdx; j++) {
+                var instruction = $(`#new-recipe-instruction-${j}`);
+                if (instruction.val().trim() == "") {
+                    instruction.attr("data-content", IN_ERROR);
+                    instruction.addClass("invalid-input");
+                    instruction.popover();
+                } else {
+                    completeInstructions++;
+                }
+            }
+
+            // CHECK THERE IS AT LEAST ONE COMPLETE INSTRUCTION
+            if (completeInstructions == 0) {
+                errorCount++;
+                var firstIn = $("#new-recipe-instruction-0");
+                firstIn.attr("data-content", IN_MIN_ERROR);
+                firstIn.addClass("invalid-input");
+                firstIn.popover("show");
+            }
+
+            if (errorCount == 0) {
+                return true;
+            } else {
+                return false;
+
+            }
+        }
+
+        function addRecipe() {
+            // RETRIEVE ALL RECIPE INFORMATION
+            var recipeName = $("#new-recipe-name").val().trim();
+            var recipeDescription = $("#new-recipe-description").val().trim();
+            var recipeCuisine = $("#new-recipe-cuisine").val().trim();
+            var recipeServing = $("#new-recipe-serving").val();
+            var recipePrep = $("#new-recipe-prep").val();
+            var recipeCook = $("#new-recipe-cook").val();
+
+            if (recipeCuisine == "Choose...") {
+                recipeCuisine = "";
+            }
+
+            // GET ALL INGREDIENTS
+            var recipeIngredients = [];
+            for (var i = 0; i <= ingredientIdx; i++) {
+                var iName = $(`#new-recipe-ingredient-name-${i}`).attr("placeholder");
+                var iQuantity = $(`#new-recipe-ingredient-quantity-${i}`).val();
+                var iUnit = $(`#new-recipe-ingredient-unit-${i}`).val();
+
+                var newIngredient = {
+                    name: iName,
+                    quantity: iQuantity,
+                    unit: iUnit
+                };
+                recipeIngredients.push(newIngredient);
+
+            }
+
+            // GET ALL INSTRUCTIONS
+            var recipeInstructions = [];
+            for (var i = 0; i <= instructionIdx; i++) {
+                var value = $(`#new-recipe-instruction-${i}`).val();
+                recipeInstructions.push(value);
+            }
+
+            ingredientIdx = 0
+            instructionIdx = 0;
+            recipeInstructions = recipeInstructions.join(";");
+
+            var recipeInfo = {
+                name: recipeName,
+                description: recipeDescription,
+                prepTime: recipePrep,
+                cookTime: recipeCook,
+                servingSize: recipeServing,
+                cuisine: recipeCuisine,
+                instructions: recipeInstructions
+            };
+
+            // ADD RECIPE TO DATABASE 
+            $.ajax({
+                url: `/api/${userToken}/recipes`,
+                type: "POST",
+                data: {
+                    info: JSON.stringify(recipeInfo),
+                    ingredients: JSON.stringify(recipeIngredients)
+                },
+                success: function (res) {
+                    loadRecipes();
+                }
+            })
+
         }
 
         e.preventDefault();
         if (userToken) {
-            
+
             // Show Bootbox Modal to prompt recipe creation
             var formPrompt = bootbox.dialog({
                 message: addRecipeForm,
@@ -135,80 +298,14 @@ $(document).ready(function () {
                     label: "Add Recipe!",
                     className: "btn btn-success",
                     callback: function () {
-                        if (checkError()) {
-
+                        if (noErrorFn()) {
+                            addRecipe();
                             formPrompt.modal('hide');
                         }
 
                         return false;
                     }
-                }],
-                callback: function (response) {
-                    // RETRIEVE ALL RECIPE INFORMATION
-                    var recipeName = $("#new-recipe-name").val().trim();
-                    var recipeDescription = $("#new-recipe-description").val().trim();
-                    var recipeCuisine = $("#new-recipe-cuisine").val().trim();
-                    var recipeServing = $("#new-recipe-serving").val();
-                    var recipePrep = $("#new-recipe-prep").val();
-                    var recipeCook = $("#new-recipe-cook").val();
-
-                    // GET ALL INGREDIENTS
-                    var recipeIngredients = [];
-                    for (var i = 0; i <= ingredientIdx; i++) {
-                        var iName = $(`#new-recipe-ingredient-name-${i}`).attr("placeholder");
-                        var iQuantity = $(`#new-recipe-ingredient-quantity-${i}`).val();
-                        var iUnit = $(`#new-recipe-ingredient-unit-${i}`).val();
-
-                        if (!(iName == "" || iName == null || iQuantity == null || isNaN(iQuantity) || iQuantity == 0)) {
-                            var newIngredient = {
-                                name: iName,
-                                quantity: iQuantity,
-                                unit: iUnit
-                            };
-                            recipeIngredients.push(newIngredient);
-                        }
-                    }
-
-                    // GET ALL INSTRUCTIONS
-                    var recipeInstructions = [];
-                    for (var i = 0; i <= instructionIdx; i++) {
-                        var value = $(`#new-recipe-instruction-${i}`).val();
-                        if (!(value == "" || value == null)) {
-                            recipeInstructions.push($(`#new-recipe-instruction-${i}`).val());
-                        }
-                    }
-
-                    ingredientIdx = 0
-                    instructionIdx = 0;
-                    recipeInstructions = recipeInstructions.join(";");
-
-                    var recipeInfo = {
-                        name: recipeName,
-                        description: recipeDescription,
-                        prepTime: recipePrep,
-                        cookTime: recipeCook,
-                        servingSize: recipeServing,
-                        cuisine: recipeCuisine,
-                        instructions: recipeInstructions
-                    };
-
-                    // ADD RECIPE TO DATABASE 
-                    $.ajax({
-                        url: `/api/${userToken}/recipes`,
-                        type: "POST",
-                        data: {
-                            info: JSON.stringify(recipeInfo),
-                            ingredients: JSON.stringify(recipeIngredients)
-                        },
-                        success: function (res) {
-                            loadRecipes();
-                        }
-                    })
-
-                    formPrompt.modal('hide');
-                }
-
-
+                }]
             })
 
         } else {
@@ -241,12 +338,17 @@ $(document).ready(function () {
 
     $(document).on("click", ".delete-ingredient-btn", function () {
         var blockId = $(this).attr("data-id");
+        $(`#new-recipe-ingredient-name-${blockId}`).popover("hide");
+        $(`#new-recipe-ingredient-quantity-${blockId}`).popover("hide");
+        $(`#new-recipe-ingredient-unit-${blockId}`).popover("hide");
+
         $(`.new-ingredient-block[data-id="${blockId}"`).remove();
         ingredientIdx--;
     })
 
     $(document).on("click", ".delete-instruction-btn", function () {
         var blockId = $(this).attr("data-id");
+        $(`#new-recipe-instruction-${blockId}`).popover("hide");
         $(`.new-instruction-block[data-id="${blockId}"`).remove();
         instructionIdx--;
     })
@@ -254,6 +356,7 @@ $(document).ready(function () {
     $(document).on("click", ".new-recipe-ingredient-name-input", function () {
         $("#main-form").fadeOut();
         $("#ingredient-selection").attr("data-formId", $(this).attr("id"));
+        $('.popover').remove();
         $("#ig-search").show();
         $("#ingredient-selection").fadeIn();
 
