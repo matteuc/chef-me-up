@@ -263,6 +263,9 @@ $(document).ready(function () {
             $("#new-ig-name").text(titleCase(newIg.name));
             setTimeout(function(){ 
                 $("#new-ig-msg").fadeOut();
+                setTimeout(function(){
+                    location.reload();
+                },1000);
              }, 3000);
         
         });
