@@ -63,6 +63,7 @@ $(document).on("click", ".ig-select-btn", function () {
     $("#ingredient-selection").fadeOut();
     // HIDE SEARCH BAR
     $("#ig-search").hide();
+    $(".modal-footer .btn-success").show();
     $("#main-form").fadeIn();
     // CLEAR SEARCH INPUT
     hideAll();

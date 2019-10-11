@@ -357,6 +357,7 @@ $(document).ready(function () {
         $("#main-form").fadeOut();
         $("#ingredient-selection").attr("data-formId", $(this).attr("id"));
         $('.popover').remove();
+        $(".modal-footer .btn-success").hide();
         $("#ig-search").show();
         $("#ingredient-selection").fadeIn();
 
