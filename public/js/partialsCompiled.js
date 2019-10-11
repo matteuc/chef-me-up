@@ -20,9 +20,11 @@ templates['favorite'] = template({"compiler":[8,">= 4.3.0"],"main":function(cont
     + alias5(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias3),(typeof helper === alias4 ? helper.call(alias2,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-name=\""
     + alias5(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias3),(typeof helper === alias4 ? helper.call(alias2,{"name":"name","hash":{},"data":data}) : helper)))
-    + "\" data-checked=\"false\">\r\n    <div class=\"d-flex justify-content-between align-items-center\">\r\n        <span class=\"font-weight-bold text-muted\">"
+    + "\">\r\n    <div class=\"d-flex justify-content-between align-items-center\">\r\n        <span class=\"font-weight-bold text-muted\">"
     + alias5(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias3),(typeof helper === alias4 ? helper.call(alias2,{"name":"name","hash":{},"data":data}) : helper)))
-    + "</span>\r\n        <div class=\"text-center\">\r\n            \r\n        </div>\r\n    </div>\r\n</li>";
+    + "</span>\r\n        <i data-id=\""
+    + alias5(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias3),(typeof helper === alias4 ? helper.call(alias2,{"name":"id","hash":{},"data":data}) : helper)))
+    + "\" class=\"favorite-btn text-danger fas fa-heart\"></i>\r\n    </div>\r\n</li>";
 },"useData":true});
 templates['ingredient'] = template({"1":function(container,depth0,helpers,partials,data) {
     var helper, alias1=container.propertyIsEnumerable, alias2=depth0 != null ? depth0 : (container.nullContext || {}), alias3=container.hooks.helperMissing, alias4="function", alias5=container.escapeExpression;
@@ -56,7 +58,7 @@ templates['loginAlert'] = template({"compiler":[8,">= 4.3.0"],"main":function(co
 
   return "<div class=\"text-center\">\r\n    <h5>"
     + container.escapeExpression(((helper = (helper = helpers.message || (depth0 != null ? depth0.message : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"message","hash":{},"data":data}) : helper)))
-    + "</h5>\r\n    <a href=\"/auth/google\">\r\n      <img class=\"img-fluid login-btn\" src=\"images/login-google.png\">\r\n    </a>\r\n</div>";
+    + "</h5>\r\n    <a href=\"/auth/google\">\r\n      <img class=\"img-fluid login-btn\" src=\"/images/login-google.png\">\r\n    </a>\r\n</div>";
 },"useData":true});
 templates['newRecipeIngredient'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var helper, alias1=container.propertyIsEnumerable, alias2=depth0 != null ? depth0 : (container.nullContext || {}), alias3=container.hooks.helperMissing, alias4="function", alias5=container.escapeExpression;

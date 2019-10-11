@@ -2,6 +2,7 @@ $(document).ready(function () {
     var loginAlertRecipes = Handlebars.templates.loginAlert({
         message: "To add your own recipes, please login:"
     });
+
     var cuisineList;
     var addRecipeForm;
     // API REQUEST TO GET CUISINES
@@ -293,7 +294,7 @@ $(document).ready(function () {
                 buttons: [{
                     label: "Cancel",
                     className: "btn btn-secondary",
-                    callback: function () {}
+                    callback: function () { }
                 }, {
                     label: "Add Recipe!",
                     className: "btn btn-success",

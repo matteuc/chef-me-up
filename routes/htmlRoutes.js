@@ -104,6 +104,7 @@ module.exports = function (app) {
           renderConfig.userToken = userAccount.sub;
           renderConfig.layout = "main-auth";
         }
+
         res.render("recipe", renderConfig);
       });
 

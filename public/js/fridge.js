@@ -41,6 +41,7 @@ $(document).ready(function () {
 
     function markIngredients() {
         var addStatus = $("#add-ingredient-btn").attr("data-add");
+        $("#sync-fridge-btn").addClass("fa-spin");
 
         function markIngredientElements(ingredientIDs) {
  
@@ -110,12 +111,6 @@ $(document).ready(function () {
     function hideUnmarked() {
         $('.ingredient-block[data-checked="false"]').hide();
 
-        // var ingredientCheckboxes = $('.ingredient-checkbox:checkbox:not(:checked)');
-        // $.each(ingredientCheckboxes, function (idx, ingredientCheckbox) {
-        //     var id = $(ingredientCheckbox).attr("data-id");
-        //     $(`.ingredient-block[data-id="${id}"`).hide();
-        // })
-
         var numChecked = $('.ingredient-checkbox:checkbox:checked').length;
         if (numChecked == 0) {
             emptyMsg.show();
@@ -132,17 +127,7 @@ $(document).ready(function () {
             emptyMsg.hide();
         }
         
-        // $.each(ingredientCheckboxes, function (idx, ingredientCheckbox) {
-        //     var id = $(ingredientCheckbox).attr("data-id");
-        //     $(`.ingredient-block[data-id="${id}"`).show();
-        // })
-
     }
-
-    $("#sync-fridge-btn").click(function (e) {
-        e.preventDefault();
-        markIngredients();
-    })
 
     $("#add-ingredient-btn").click(function (e) {
         e.preventDefault();

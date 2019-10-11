@@ -1,3 +1,8 @@
+{{#if userToken.length}}
+<span id="userToken" data-token="{{userToken}}" class="d-none"></span>
+{{/if}}
+<span id="recipe-url" class="d-none">{{url}}</span>
+
 <div class="row">
     <div class="col-sm-12">
         <div class="card text-center">
@@ -11,16 +16,15 @@
                         {{cuisine}} | By {{author}} on {{createdOn}}
                     </p>
                 </div>
-                <span></span>
-
+                <i data-id={{id}} data-favorite="false" id="favorite-btn" class="text-danger far fa-heart"></i>
             </div>
 
             <div class="card-body">
                 <div class="row justify-content-center mb-3">
                     <div class="col-12">
-                    <span class="font-italic text-muted" style="font-size: 0.9em">
-                        {{description}}
-                    </span>
+                        <span class="font-italic text-muted" style="font-size: 0.9em">
+                            {{description}}
+                        </span>
 
                     </div>
                 </div>
@@ -97,5 +101,4 @@
 
 </div>
 
-
-<span id="recipe-url" class="d-none">{{url}}</span>
+<script src="/js/recipe.js"></script>

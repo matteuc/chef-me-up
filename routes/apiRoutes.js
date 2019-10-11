@@ -178,6 +178,19 @@ module.exports = function (app) {
         });
     });
 
+    app.get("/api/:userToken/favorites/id-list", function (req, res) {
+        var userToken = req.params.userToken;
+        var favoriteIDs;
+        db.User.findOne({
+            where: {
+                token: userToken
+            }
+        }).then(function (userInfo) {
+            favoriteIDs = userInfo.favorites.split(";");
+            res.json(favoriteIDs);
+        });
+    });
+
     app.get("/api/custom/recipes", function (req, res) {
         var ingredientIDs = req.query.ingredientsStr.split(";");
         findRecipes(ingredientIDs, res);
