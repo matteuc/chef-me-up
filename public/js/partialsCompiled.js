@@ -20,7 +20,7 @@ templates['favorite'] = template({"compiler":[8,">= 4.3.0"],"main":function(cont
     + alias5(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias3),(typeof helper === alias4 ? helper.call(alias2,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-name=\""
     + alias5(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias3),(typeof helper === alias4 ? helper.call(alias2,{"name":"name","hash":{},"data":data}) : helper)))
-    + "\">\r\n    <div class=\"d-flex justify-content-between align-items-center\">\r\n        <span class=\"font-weight-bold text-muted\">"
+    + "\">\r\n    <div class=\"d-flex justify-content-between align-items-center\">\r\n        <span class=\"text-left font-weight-bold text-muted\">"
     + alias5(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias3),(typeof helper === alias4 ? helper.call(alias2,{"name":"name","hash":{},"data":data}) : helper)))
     + "</span>\r\n        <div>\r\n            <i data-link=\"/recipes/"
     + alias5(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias3),(typeof helper === alias4 ? helper.call(alias2,{"name":"id","hash":{},"data":data}) : helper)))
@@ -49,7 +49,7 @@ templates['ingredient'] = template({"1":function(container,depth0,helpers,partia
     + alias5(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias3),(typeof helper === alias4 ? helper.call(alias2,{"name":"id","hash":{},"data":data}) : helper)))
     + "\" data-name=\""
     + alias5(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias3),(typeof helper === alias4 ? helper.call(alias2,{"name":"name","hash":{},"data":data}) : helper)))
-    + "\" data-checked=\"false\">\r\n    <div class=\"d-flex justify-content-between align-items-center\">\r\n        <span class=\"font-weight-bold text-muted\">"
+    + "\" data-checked=\"false\">\r\n    <div class=\"d-flex justify-content-between align-items-center\">\r\n        <span class=\"text-left font-weight-bold text-muted\">"
     + alias5(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias3),(typeof helper === alias4 ? helper.call(alias2,{"name":"name","hash":{},"data":data}) : helper)))
     + "</span>\r\n        <div class=\"text-center\">\r\n"
     + ((stack1 = helpers["if"].call(alias2,(depth0 != null ? depth0.isForm : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
@@ -157,7 +157,7 @@ templates['recipeItem'] = template({"1":function(container,depth0,helpers,partia
 
   return "<div class=\"card\">\r\n"
     + ((stack1 = helpers["if"].call(alias2,(depth0 != null ? depth0.numMatches : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
-    + "\r\n      <span class=\"mb-0\">\r\n        "
+    + "\r\n      <span class=\"text-left mb-0\">\r\n        "
     + container.escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(alias2,{"name":"name","hash":{},"data":data}) : helper)))
     + "\r\n      </span>\r\n      <div>\r\n"
     + ((stack1 = helpers["if"].call(alias2,(depth0 != null ? depth0.numMatches : depth0),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.program(7, data, 0),"data":data})) != null ? stack1 : "")
