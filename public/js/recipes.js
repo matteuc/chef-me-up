@@ -255,7 +255,7 @@ $(document).ready(function () {
 
             ingredientIdx = 0
             instructionIdx = 0;
-            recipeInstructions = recipeInstructions.join(";");
+            recipeInstructions = recipeInstructions.join(";*;");
 
             var recipeInfo = {
                 name: recipeName,

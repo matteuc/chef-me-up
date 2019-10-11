@@ -94,7 +94,7 @@ module.exports = function (app) {
           description: recipe.description,
           createdOn: moment(recipe.createdAt).format('MMMM Do YYYY'),
           author: user.name,
-          instructions: recipe.instructions.split(";"),
+          instructions: recipe.instructions.split(";*;"),
           ingredients: ingredients,
           url: `https://chef-me-up.herokuapp.com${req.originalUrl}`
         };
