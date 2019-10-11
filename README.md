@@ -2,25 +2,26 @@
 
 ## Getting Started
 
-### How to use
+## How to use
 
 
 ## Built With
+
 * [Bootstrap] - General UI layout
 * [JQuery] - DOM manuplation
-* [Bootbox] -JSlibrary prompt modals 
+* [Bootbox] -JS library to prompt modals 
+* [Handlebars and Partials] - as template engine
 * [Node.js] - Web server
 * [Express] - to setup middlewares and define routes
-* [MySQL] - to store user info, ingredient and recipes data
-* [Sequalizer ORM] - to communicate to our db
-* [Heroku] - to deploy app
-* [Handlebars and Partials] - as template engine
 * [passport and session] - to authenticate user 
+* [MySQL DB] - to store data
+* [Sequalizer ORM] - to communicate to our database
+* [Heroku] - to deploy app
 
 
 ## Authors
 
-* **Brittany Tores** - 
-* **Hanna Tefera** - 
-* **Matthew Chen** - [HannaBella](https://github.com/HannaBella)
-* **Walaa Alani** - 
+* **Brittany Torres** - [torresB](https://github.com/torresB)
+* **Hanna Tefera** - [HannaBella](https://github.com/HannaBella)
+* **Matthew Chen** - [matteuc](https://github.com/matteuc)
+* **Walaa Alani** - [alaniwalaa](https://github.com/alaniwalaa)
