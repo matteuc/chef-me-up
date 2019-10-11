@@ -160,9 +160,10 @@ $(document).ready(function () {
             
         } else {
             // SHOW SEARCHBAR
-            $("#ig-search").show();
-            emptyMsg.hide();
             hideAll();
+            emptyMsg.hide();
+            $("#ig-search").show();
+            $("#ig-search-input").focus();
 
             // If not, show all unadded ingredients
             $(this).removeClass("text-success fa-plus-square")
