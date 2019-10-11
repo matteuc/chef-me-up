@@ -34,6 +34,7 @@ $(document).ready(function () {
       bootbox.alert({
         message: loginAlert,
         centerVertical: true,
+        backdrop: true,
         closeButton: false
       });
     }

@@ -303,16 +303,18 @@ $(document).ready(function () {
                             addRecipe();
                             formPrompt.modal('hide');
                         }
-
+                        
                         return false;
                     }
-                }]
+                }],
+                backdrop: true,
             })
 
         } else {
             bootbox.alert({
                 message: loginAlertRecipes,
                 centerVertical: true,
+                backdrop: true,
                 closeButton: false
             })
         }
@@ -361,7 +363,7 @@ $(document).ready(function () {
         $(".modal-footer .btn-success").hide();
         $("#ig-search").show();
         $("#ingredient-selection").fadeIn();
-
+        $("#ig-search-input").focus();
     });
 
     // Load recipes when page first loads

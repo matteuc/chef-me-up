@@ -61,6 +61,7 @@ $(document).ready(function () {
             bootbox.alert({
                 message: loginAlertFavorites,
                 centerVertical: true,
+                backdrop: true,
                 closeButton: false
             });
         }
