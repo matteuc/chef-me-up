@@ -5,7 +5,7 @@ var exphbs = require("express-handlebars");
 var passport = require("passport");
 var auth = require("./config/auth");
 var db = require("./models");
-// var ingredients = require("./ingredients.json");
+var ingredients = require("./ig-addon.json");
 
 var app = express();
 var PORT = process.env.PORT || 3000;
@@ -50,11 +50,11 @@ if (process.env.NODE_ENV === "test") {
 // Starting the server, syncing our models ------------------------------------/
 db.sequelize.sync(syncOptions).then(function() {
   app.listen(PORT, function() {
-    // db.Ingredient.bulkCreate(ingredients).then(function(res) {
-    //   if (res) {
-    //     console.log(true);
-    //   }
-    // });
+    db.Ingredient.bulkCreate(ingredients).then(function(res) {
+      if (res) {
+        console.log(true);
+      }
+    });
     console.log(
       "==> 🌎  Listening on port %s. Visit http://localhost:%s/ in your browser.",
       PORT,
