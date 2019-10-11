@@ -14,6 +14,10 @@ $(document).ready(function() {
     break;
   }
 
+  if(currPath.includes("/recipes")) {
+    $("#recipes-tab").addClass("active");
+  }
+
   $(".nav-link").bind("click", function(event) {
     event.preventDefault();
     var clickedItem = $(this);

@@ -70,14 +70,14 @@
                 </div>
                 <hr>
                 <div class="row" id="ig-block">
-                    <div class="col-sm-5" id="ig-list">
+                    <div class="col-md-4" id="ig-list">
                         <p class="font-weight-bold recipe-subTitle">
                             Ingredients
                         </p>
 
                         {{#each ingredients}}
 
-                        <p class="mb-2">
+                        <p class="mb-2 ingredient">
                             <span class="font-italic">{{quantity}} {{unit}}</span>
                             <span class="text-success">&nbsp;{{igName}}</span>
                         </p>
@@ -92,15 +92,15 @@
                             </script>
                         </div>
 
-                        <hr class="d-block d-sm-none">
+                        <hr class="d-block d-md-none">
                     </div>
-                    <div class="col-sm-offset-1 col-sm-6" id="in-list">
+                    <div class="col-md-offset-1 col-md-7" id="in-list">
                         <p class="font-weight-bold recipe-subTitle">
                             Instructions
                         </p>
                         <ol>
                             {{#each instructions as |i|}}
-                            <li>{{i}}</li>
+                            <li class="mb-2">{{i}}</li>
 
                             {{/each}}
                         </ol>

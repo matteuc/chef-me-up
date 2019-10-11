@@ -136,7 +136,7 @@ $(document).ready(function () {
 
             // Check if cooking time is negative or zero or empty
             var rCookTime = rCook.val();
-            if (rCookTime <= 0 || rCookTime == null || isNaN(rCookTime)) {
+            if (rCookTime <= 0 || rCookTime == null || isNaN(rCookTime) || (rCookTime % 1) !== 0) {
                 errorCount++;
                 rCook.attr("data-content", COOKPREP_ERROR);
                 rCook.addClass("invalid-input");
@@ -145,7 +145,7 @@ $(document).ready(function () {
 
             // Check if prep time is negative or zero
             var rPrepTime = rPrep.val();
-            if (rPrepTime <= 0 || rPrepTime == null || isNaN(rPrepTime)) {
+            if (rPrepTime <= 0 || rPrepTime == null || isNaN(rPrepTime) || (rPrepTime % 1) !== 0) {
                 errorCount++;
                 rPrep.attr("data-content", COOKPREP_ERROR);
                 rPrep.addClass("invalid-input");
