@@ -1,45 +1,52 @@
 <div class="card">
-  <div class="card-header d-flex justify-content-between" id="heading-{{id}}" data-toggle="collapse"
+    {{#if numMatches}}
+     <div class="card-header d-flex justify-content-between" id="heading-{{id}}" data-toggle="collapse"
     data-target="#collapse-{{id}}" aria-expanded="false" aria-controls="collapse-{{id}}">
-    <span class="mb-0">
-      {{name}}
-    </span>
-    <div>
-      {{#if numMatches}}
-      <span class="badge badge-success">{{numMatches}}</span>&nbsp;<span class="text-muted">matches</span>
-      {{else}}
-      <i data-link="/recipes/{{id}}" class=" ml-2 text-info fas fa-info-circle"></i>
+    {{else}}
+    <div data-link="/recipes/{{id}}" class="card-header d-flex justify-content-between" id="heading-{{id}}">
+    {{/if}}
 
-      {{/if}}
-      {{!-- <i class="fas fa-caret-down"></i> --}}
+      <span class="mb-0">
+        {{name}}
+      </span>
+      <div>
+        {{#if numMatches}}
+        <span class="badge badge-success">{{numMatches}}</span>&nbsp;&nbsp;<span class="text-muted">matches</span>
+        {{else}}
+        <i class=" ml-2 text-info fas fa-info-circle"></i>
+
+        {{/if}}
+        {{!-- <i class="fas fa-caret-down"></i> --}}
+      </div>
     </div>
-  </div>
 
-  <div id="collapse-{{id}}" class="collapse" aria-labelledby="heading-{{id}}">
-    <div class="card-body text-center">
-      <button data-link="/recipes/{{id}}" type="button" class="btn btn-info btn-block">View recipe&nbsp;&nbsp;<i
-          class="fas fa-info-circle fa-sm"></i></button>
-      {{#if numMatches}}
-      <br>
-      <p class="font-italic">You currently have <span class="text-success font-weight-bold">{{numMatches}}</span> of
-        this recipe's ingredients!</p>
-      <ul class="list-group">
-        {{#each matches}}
-        <li class="list-group-item">{{ingredientName}}</li>
-        {{/each}}
-      </ul>
-      {{/if}}
-      {{#if numMissing}}
-      <br>
-      <p class="font-italic">You currently do not have <span class="text-danger font-weight-bold">{{numMissing}}</span>
-        of this recipe's ingredients!</p>
-      <ul class="list-group">
-        {{#each missing}}
-        <li class="list-group-item">{{ingredientName}}</li>
-        {{/each}}
-      </ul>
-      {{/if}}
+    {{#if numMatches}}
+    <div id="collapse-{{id}}" class="collapse" aria-labelledby="heading-{{id}}">
+      <div class="card-body text-center">
+        <button data-link="/recipes/{{id}}" type="button" class="btn btn-info btn-block">View recipe&nbsp;&nbsp;<i
+            class="fas fa-info-circle fa-sm"></i></button>
+        <br>
+        <p class="font-italic">You currently have <span class="text-success font-weight-bold">{{numMatches}}</span> of
+          this recipe's ingredients!</p>
+        <ul class="list-group">
+          {{#each matches}}
+          <li class="list-group-item">{{ingredientName}}</li>
+          {{/each}}
+        </ul>
 
+        {{#if numMissing}}
+        <br>
+        <p class="font-italic">You currently do not have <span
+            class="text-danger font-weight-bold">{{numMissing}}</span>
+          of this recipe's ingredients!</p>
+        <ul class="list-group">
+          {{#each missing}}
+          <li class="list-group-item">{{ingredientName}}</li>
+          {{/each}}
+        </ul>
+        {{/if}}
+
+      </div>
     </div>
+    {{/if}}
   </div>
-</div>
