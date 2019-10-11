@@ -154,13 +154,17 @@ templates['recipeItem'] = template({"1":function(container,depth0,helpers,partia
     + ((stack1 = helpers["if"].call(alias2,(depth0 != null ? depth0.numMissing : depth0),{"name":"if","hash":{},"fn":container.program(8, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\r\n    </div>\r\n  </div>\r\n</div>";
 },"useData":true});
-templates['searchbar'] = template({"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
-    var helper, alias1=container.propertyIsEnumerable, alias2=depth0 != null ? depth0 : (container.nullContext || {}), alias3=container.hooks.helperMissing, alias4="function", alias5=container.escapeExpression;
+templates['searchbar'] = template({"1":function(container,depth0,helpers,partials,data) {
+    return "    <button type=\"button\" id=\"add-new-ingredient-btn\" class=\"btn btn-success btn-block\">Add\r\n            Ingredient&nbsp;&nbsp;<i class=\"fas fa-carrot fa-sm\"></i></button>\r\n            <p id=\"new-ig-msg\" class=\"mt-3 text-info\" style=\"display: none\">\r\n                <span id=\"new-ig-name\"></span> has been added!\r\n            </p>\r\n";
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=container.propertyIsEnumerable, alias2=depth0 != null ? depth0 : (container.nullContext || {}), alias3=container.hooks.helperMissing, alias4="function", alias5=container.escapeExpression;
 
   return "<div id=\"ig-search\" class=\"p-1 bg-light rounded rounded-pill shadow-sm mb-4\">\r\n    <div class=\"input-group\">\r\n        <div class=\"input-group-prepend\">\r\n            <button id=\"ig-search-submit-btn\" type=\"submit\" class=\"btn btn-link text-warning\"><i\r\n                    class=\"fa fa-search\"></i></button>\r\n        </div>\r\n        <input id=\"ig-search-input\" type=\"search\" placeholder=\""
     + alias5(((helper = (helper = helpers.placeholder || (depth0 != null ? depth0.placeholder : depth0)) != null ? helper : alias3),(typeof helper === alias4 ? helper.call(alias2,{"name":"placeholder","hash":{},"data":data}) : helper)))
-    + "\" aria-describedby=\"ig-search-submit-btn\"\r\n            class=\"form-control border-0 bg-light\">\r\n    </div>\r\n</div>\r\n<p id=\"ig-search-error\" class=\"mt-1 text-danger text-center font-weight-bold\">\"<span id=\"error-ig-name\" ></span>\" "
+    + "\" aria-describedby=\"ig-search-submit-btn\"\r\n            class=\"form-control border-0 bg-light\">\r\n    </div>\r\n</div>\r\n<div id=\"ig-search-error\" class=\"mt-1 justify-content-center\">\r\n    <p class=\"text-danger text-center font-weight-bold\">\r\n        \"<span id=\"error-ig-name\"></span>\" "
     + alias5(((helper = (helper = helpers.error || (depth0 != null ? depth0.error : depth0)) != null ? helper : alias3),(typeof helper === alias4 ? helper.call(alias2,{"name":"error","hash":{},"data":data}) : helper)))
-    + "</p>";
+    + "\r\n    </p>\r\n"
+    + ((stack1 = helpers["if"].call(alias2,(depth0 != null ? depth0.isAdmin : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\r\n</div>";
 },"useData":true});
 })();

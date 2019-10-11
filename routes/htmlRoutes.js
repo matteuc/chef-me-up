@@ -4,6 +4,7 @@
 var db = require("../models");
 var passport = require("passport");
 var moment = require("moment");
+var admin = require("../adminList.json");
 
 module.exports = function (app) {
   function titleCase(str) {
@@ -20,15 +21,19 @@ module.exports = function (app) {
   app.get("/", function (req, res) {
     if (req.session.passport) {
       var userAccount = req.session.passport.user.profile._json;
+      var isAdmin = admin.list.includes(userAccount.sub);
       res.render("fridge", {
         username: userAccount.given_name,
         userToken: userAccount.sub,
+        userIsAdmin: isAdmin,
         layout: "main-auth"
+        
       });
 
     } else {
       res.render("fridge", {
-        username: "User"
+        username: "User",
+        userIsAdmin: false
       });
     }
   });

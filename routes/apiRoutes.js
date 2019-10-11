@@ -75,19 +75,19 @@ module.exports = function (app) {
         // Find recipes that match ingredientIDs
         db.Recipe.findAll({
             include: [{
-                    model: db.RecipeIngredient,
-                    as: "ri",
-                    required: true,
-                    attributes: [],
-                    where: {
-                        ingredientId: ingredientIDs
-                    },
+                model: db.RecipeIngredient,
+                as: "ri",
+                required: true,
+                attributes: [],
+                where: {
+                    ingredientId: ingredientIDs
                 },
-                {
-                    model: db.Ingredient,
-                    as: "Ingredients",
-                    required: true,
-                },
+            },
+            {
+                model: db.Ingredient,
+                as: "Ingredients",
+                required: true,
+            },
             ]
         }).then(function (recipeMatches) {
             // res.json(recipeMatches);
@@ -161,15 +161,15 @@ module.exports = function (app) {
                 where: {
                     id: favoriteIDs
                 }
-            }).then(function(favRecipesData) {
+            }).then(function (favRecipesData) {
                 var favRecipes = [];
 
-                for (r of favRecipesData) {    
+                for (r of favRecipesData) {
                     var recipeItem = {
                         id: r.id,
                         name: r.name
                     }
-    
+
                     favRecipes.push(recipeItem);
                 }
 
@@ -381,5 +381,14 @@ module.exports = function (app) {
 
     });
 
+    app.post("/api/ingredients", function (req, res) {
+        var ingredientName = req.body.name;
+        db.Ingredient.create({
+            name: ingredientName
+        }).then(function (igData) {
+            res.json(igData);
+        });
+
+    });
 
 };
