@@ -307,7 +307,8 @@ $(document).ready(function () {
                         return false;
                     }
                 }],
-                backdrop: true,
+                onEscape: true,
+                backdrop: true
             })
 
         } else {
