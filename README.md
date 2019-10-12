@@ -21,16 +21,16 @@ incorporate those ingredients. When user sign in, they can save their favorite r
 
 ## Built With
 
-* [Bootstrap] - General UI layout
-* [JQuery] - DOM manuplation
-* [Bootbox] - to create modals 
-* [Handlebars and Partials] - as template engine
-* [Node.js] - Web server
-* [Express] - to setup middlewares and define routes
-* [passport and session] - to authenticate user 
-* [MySQL DB] - to store data
-* [Sequalizer ORM] - to communicate to our database
-* [Heroku] - to deploy app
+* Bootstrap - General UI layout
+* JQuery - DOM manuplation
+* Bootbox - to create modals 
+* Handlebars and Partials - as template engine
+* Node.js - Web server
+* Express - to setup middlewares and define routes
+* Passport and session - to authenticate user 
+* MySQL DB - to store data
+* Sequalizer ORM - to communicate to our database
+* Heroku - to deploy app
 
 
 ## Contributors
