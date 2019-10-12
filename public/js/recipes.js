@@ -403,7 +403,7 @@ $(document).ready(function () {
             
             if( !ingredientOnly && matchesQuery && matchesCuisine ) {
                 $(`.recipe-block[data-id="${r.id}"]`).show();
-            } else if( ingredientOnly && !matchesQuery && !matchesCuisine ) {
+            } else if( ingredientOnly && (!matchesQuery || !matchesCuisine) ) {
                 $(`.recipe-block[data-id="${r.id}"]`).hide();
             }
         }
