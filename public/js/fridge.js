@@ -253,23 +253,34 @@ $(document).ready(function () {
 
     $("#add-new-ingredient-btn").click(function (e) {
         var newIg = $("#ig-search-input").val().trim();
-        $.ajax({
-            url: "/api/ingredients",
-            type: "POST",
-            data: {
-                name: newIg.toLowerCase()
+        bootbox.confirm({
+            message: `Are you sure you want to add "${newIg}"?`,
+            centerVertical: true,
+            closeButton: false,
+            callback: function(result) {
+                if(result) {
+
+                    $.ajax({
+                        url: "/api/ingredients",
+                        type: "POST",
+                        data: {
+                            name: newIg.toLowerCase()
+                        }
+                    }).then(function(newIg){
+                        $("#new-ig-msg").fadeIn();
+                        $("#new-ig-name").text(titleCase(newIg.name));
+                        setTimeout(function(){ 
+                            $("#new-ig-msg").fadeOut();
+                            setTimeout(function(){
+                                location.reload();
+                            },1000);
+                         }, 3000);
+                    
+                    });
+                }
             }
-        }).then(function(newIg){
-            $("#new-ig-msg").fadeIn();
-            $("#new-ig-name").text(titleCase(newIg.name));
-            setTimeout(function(){ 
-                $("#new-ig-msg").fadeOut();
-                setTimeout(function(){
-                    location.reload();
-                },1000);
-             }, 3000);
-        
-        });
+
+        })
     })
 
     // Load ingredients when page loads
