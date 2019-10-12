@@ -1,4 +1,5 @@
 # chefMEup
+https://chef-me-up.herokuapp.com
 
 chefMEup is created to render recipes based on user's ingredients. It helps user to cook a simple, yet delicious, meal.
 Users can quickly mark the ingredients they have in their fridge and have access to all the recipes in our database that 
@@ -17,7 +18,14 @@ incorporate those ingredients. When user sign in, they can save their favorite r
 -If user want to save your favorites or add your own recipes, just sign in with your google account.
 
 ## How to use
+General user - add ingredients and get all recipes related to their ingredient/s
 
+<img src="https://github.com/matteuc/chef-me-up/blob/master/public/images/chefMEup.gif">
+
+
+Sign in User - can save favorite recipes and add their own recipe
+
+<img src="https://github.com/matteuc/chef-me-up/blob/master/public/images/chefMEup-SignInUser.gif">
 
 ## Built With
 
