@@ -298,6 +298,7 @@ $(document).ready(function () {
                 message: addRecipeForm,
                 centerVertical: true,
                 closeButton: false,
+                size: 'lg',
                 buttons: [{
                     label: "Cancel",
                     className: "btn btn-secondary",
