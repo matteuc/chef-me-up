@@ -66,4 +66,9 @@ $(document).ready(function () {
             });
         }
     });
+
+    // CHANGE PAGE TITLE
+    var rName = $("#r-name").text();
+    $("title").text(`${rName} | chefMEup`);
+
 });

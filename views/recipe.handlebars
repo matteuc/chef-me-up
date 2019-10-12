@@ -9,11 +9,11 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <span></span>
                 <div id="name-block">
-                    <h4>
+                    <h4 id="r-name">
                         {{name}}
                     </h4>
                     <p class="text-muted mb-0" style="font-size: 0.8em">
-                        {{cuisine}} | By {{author}} on {{createdOn}}
+                        {{cuisine}} | By <span class="text-info">{{author}}<span> on {{createdOn}}
                     </p>
                 </div>
                 <i data-id={{id}} data-favorite="false" id="favorite-btn" class="text-danger far fa-heart fa-lg"></i>
