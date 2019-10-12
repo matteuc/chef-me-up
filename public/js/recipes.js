@@ -388,7 +388,7 @@ $(document).ready(function () {
         hideAll();
         $("#r-search-error").hide();
 
-        if(rQuery == "") {
+        if(rQuery == "" && rCuisine == "All") {
             hideAll();
             return;
         } 
