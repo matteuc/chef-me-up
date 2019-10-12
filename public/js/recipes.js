@@ -399,11 +399,11 @@ $(document).ready(function () {
     
         for(r of rCatalog) {
             var matchesQuery = r.name.toLowerCase().includes(rQuery.toLowerCase());
-            var matchesCuisine = (rCuisine == r.cuisine || rCuisine == "All")
+            var matchesCuisine = (rCuisine == r.cuisine) || (rCuisine == "All")
             
             if( !ingredientsOnly && matchesQuery && matchesCuisine ) {
                 $(`.recipe-block[data-id="${r.id}"]`).show();
-            } else if( ingredientsOnly && !matchesQuery && matchesCuisine ) {
+            } else if( ingredientsOnly && matchesQuery && matchesCuisine ) {
                 $(`.recipe-block[data-id="${r.id}"]`).hide();
             }
         }
