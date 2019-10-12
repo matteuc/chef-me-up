@@ -26,6 +26,7 @@ module.exports = function (app) {
       res.render("fridge", {
         username: userAccount.given_name,
         userToken: userAccount.sub,
+        userImage: userAccount.picture,
         userIsAdmin: isAdmin,
         layout: "main-auth"
         
@@ -46,6 +47,7 @@ module.exports = function (app) {
       res.render("recipes", {
         username: userAccount.given_name,
         userToken: userAccount.sub,
+        userImage: userAccount.picture,
         cuisines: cuisines,
         layout: "main-auth"
       });
@@ -110,6 +112,7 @@ module.exports = function (app) {
         if (req.session.passport) {
           var userAccount = req.session.passport.user.profile._json;
           renderConfig.userToken = userAccount.sub;
+          renderConfig.userImage = userAccount.picture;
           renderConfig.layout = "main-auth";
         }
 
@@ -126,6 +129,7 @@ module.exports = function (app) {
       res.render("favorites", {
         username: userAccount.given_name,
         userToken: userAccount.sub,
+        userImage: userAccount.picture,
         layout: "main-auth"
       });
 
