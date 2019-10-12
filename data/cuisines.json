@@ -27,6 +27,9 @@
         "cName": "English"
     },
     {
+        "cName": "Ethiopian"
+    },
+    {
         "cName": "French"
     },
     {
@@ -64,9 +67,6 @@
     },
     {
         "cName": "Laotian"
-    },
-    {
-        "cName": "Ethiopian"
     },
     {
         "cName": "Malaysian"
