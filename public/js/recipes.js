@@ -27,6 +27,7 @@ $(document).ready(function () {
         userToken = userTokenElement.attr("data-token");
         USER_RECIPES_PATH = `/api/${userToken}/recipes`;
     }
+    var rCatalog = [];
     var recipesContent = $("#recipes-content");
     var noRecipesMsg = $("#no-recipes-msg");
 
@@ -44,6 +45,7 @@ $(document).ready(function () {
 
         function renderRecipes(recipes) {
             recipesContent.empty();
+            rCatalog = [];
             noRecipesMsg.show();
             if (recipes.length) {
                 noRecipesMsg.hide();
@@ -53,8 +55,11 @@ $(document).ready(function () {
 
                     var recipePartial = Handlebars.templates.recipeItem(recipe);
                     recipesContent.append(recipePartial);
+                    rCatalog.push(recipe);
 
                 })
+                hideAll();
+                updateRecipes();
             }
         }
         // If user only want to return recipes that matches their ingredients
@@ -64,6 +69,7 @@ $(document).ready(function () {
                 $.get(USER_RECIPES_PATH, function (res) {
                     var recipes = res;
                     renderRecipes(recipes);
+
                 })
 
             } else {
@@ -75,6 +81,7 @@ $(document).ready(function () {
                     }, function (res) {
                         var recipes = res;
                         renderRecipes(recipes);
+
                     })
                 } else {
                     recipesContent.empty();
@@ -367,6 +374,52 @@ $(document).ready(function () {
         $("#ig-search-input").focus();
     });
 
+    function hideAll() {
+        $(".recipe-block").hide();
+    }
+
+    function showAll() {
+        $(".recipe-block").hide();
+    }
+
+    function updateRecipes() {
+        var rQuery = $("#r-search-input").val().trim();
+        var rCuisine = $("#recipe-cuisine").val();
+        hideAll();
+        $("#r-search-error").hide();
+
+        if(rQuery == "") {
+            hideAll();
+            return;
+        } 
+
+        
+        for(r of rCatalog) {
+            var containsQuery = r.name.toLowerCase().includes(rQuery.toLowerCase());
+            if( containsQuery && rCuisine == "All") {
+                $(`.recipe-block[data-id="${r.id}"]`).show();
+            }
+            else if(containsQuery && r.cuisine == rCuisine) {
+                $(`.recipe-block[data-id="${r.id}"]`).show();
+            }
+        }
+
+        if($(".recipe-block:visible").length == 0) {
+            $("#error-r-cuisine").text(rCuisine);
+            $("#error-r-name").text(rQuery);
+            $("#r-search-error").show();
+        }
+    }
+    $("#r-search-input").on('input', function(){
+        updateRecipes()
+    });
+
+    $("#recipe-cuisine").change( function(){
+        updateRecipes()
+    });
+
+
+    $("#ig-search").show();
     // Load recipes when page first loads
     loadRecipes();
 });

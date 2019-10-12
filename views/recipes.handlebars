@@ -14,6 +14,20 @@
             </div>
 
             <div class="card-body">
+                <div id="recipe-search" class="row mb-3">
+                    <div class="col-md-9">
+                    {{> searchbarR error="is not a(n)" placeholder="What recipe are you looking for?"}}
+                    </div>
+                    <div class="col-md-3 align-center">
+                        <select id="recipe-cuisine" style="position: relative; top: 5px" class="form-control">
+                            <option selected>All</option>
+                            {{#each cuisines}}
+                            <option>{{cName}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+
+                </div>
                 <div id="recipes-content" class="accordion">
 
                 </div>

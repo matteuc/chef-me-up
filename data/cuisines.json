@@ -1,101 +1,101 @@
 [
     {
-        "name": "American"
+        "cName": "American"
     },
     {
-        "name": "Arabic"
+        "cName": "Arabic"
     },
     {
-        "name": "Brazilian"
+        "cName": "Brazilian"
     },
     {
-        "name": "Cajun"
+        "cName": "Cajun"
     },
     {
-        "name": "Cantonese"
+        "cName": "Cantonese"
     },
     {
-        "name": "Caribbean"
+        "cName": "Caribbean"
     },
     {
-        "name": "Chinese"
+        "cName": "Chinese"
     },
     {
-        "name": "Danish"
+        "cName": "Danish"
     },
     {
-        "name": "English"
+        "cName": "English"
     },
     {
-        "name": "French"
+        "cName": "French"
     },
     {
-        "name": "Filipino"
+        "cName": "Filipino"
     },
     {
-        "name": "German"
+        "cName": "German"
     },
     {
-        "name": "Greek"
+        "cName": "Greek"
     },
     {
-        "name": "Hawaiian"
+        "cName": "Hawaiian"
     },
     {
-        "name": "Indian"
+        "cName": "Indian"
     },
     {
-        "name": "Indonesian"
+        "cName": "Indonesian"
     },
     {
-        "name": "Irish"
+        "cName": "Irish"
     },
     {
-        "name": "Italian"
+        "cName": "Italian"
     },
     {
-        "name": "Japanese"
+        "cName": "Japanese"
     },
     {
-        "name": "Jewish"
+        "cName": "Jewish"
     },
     {
-        "name": "Korean"
+        "cName": "Korean"
     },
     {
-        "name": "Laotian"
+        "cName": "Laotian"
     },
     {
-        "name": "Ethiopian"
+        "cName": "Ethiopian"
     },
     {
-        "name": "Malaysian"
+        "cName": "Malaysian"
     },
     {
-        "name": "Mediterranean"
+        "cName": "Mediterranean"
     },
     {
-        "name": "Mexican"
+        "cName": "Mexican"
     },
     {
-        "name": "Persian"
+        "cName": "Persian"
     },
     {
-        "name": "Peruvian"
+        "cName": "Peruvian"
     },
     {
-        "name": "Portugese"
+        "cName": "Portugese"
     },
     {
-        "name": "Russian"
+        "cName": "Russian"
     },
     {
-        "name": "Singaporean"
+        "cName": "Singaporean"
     },
     {
-        "name": "Taiwanese"
+        "cName": "Taiwanese"
     },
     {
-        "name": "Thai"
+        "cName": "Thai"
     }
 ]

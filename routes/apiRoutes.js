@@ -101,7 +101,8 @@ module.exports = function (app) {
                     numMatches: matchInfo.matches.length,
                     numMissing: matchInfo.missing.length,
                     matches: matchInfo.matches,
-                    missing: matchInfo.missing
+                    missing: matchInfo.missing,
+                    cuisine: r.cuisine
                 }
 
                 recipes.push(recipeItem);

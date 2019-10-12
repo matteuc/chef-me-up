@@ -88,7 +88,7 @@ a:hover {
     height: 50px;
 }
 
-#empty-fridge-msg, #userToken, #ig-search, #ig-search-error, #no-ig-msg {
+#empty-fridge-msg, #userToken, #ig-search, #ig-search-error, #r-search-error, #no-ig-msg {
     display: none;
 }
 
@@ -116,4 +116,11 @@ a:hover {
 #name-block, .recipe-subTitle {
     font-weight: bold;
     color: rgb(231, 146, 85);
+}
+
+select{
+    text-align: center;
+    text-align-last:center;
+    -ms-text-align-last: center;
+    -moz-text-align-last: center;
 }

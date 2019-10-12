@@ -4,7 +4,7 @@ templates['addRecipeForm'] = template({"1":function(container,depth0,helpers,par
     var helper, alias1=container.propertyIsEnumerable;
 
   return "            <option data-default=\"false\">"
-    + container.escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"name","hash":{},"data":data}) : helper)))
+    + container.escapeExpression(((helper = (helper = helpers.cName || (depth0 != null ? depth0.cName : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"cName","hash":{},"data":data}) : helper)))
     + "</option>\r\n";
 },"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, alias1=container.propertyIsEnumerable;
@@ -153,12 +153,14 @@ templates['recipeItem'] = template({"1":function(container,depth0,helpers,partia
     + ((stack1 = helpers.each.call(alias2,(depth0 != null ? depth0.missing : depth0),{"name":"each","hash":{},"fn":container.program(10, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "        </ul>\r\n";
 },"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
-    var stack1, helper, alias1=container.propertyIsEnumerable, alias2=depth0 != null ? depth0 : (container.nullContext || {});
+    var stack1, helper, alias1=container.propertyIsEnumerable, alias2=depth0 != null ? depth0 : (container.nullContext || {}), alias3=container.hooks.helperMissing, alias4="function", alias5=container.escapeExpression;
 
-  return "<div class=\"card\">\r\n"
+  return "<div data-id=\""
+    + alias5(((helper = (helper = helpers.id || (depth0 != null ? depth0.id : depth0)) != null ? helper : alias3),(typeof helper === alias4 ? helper.call(alias2,{"name":"id","hash":{},"data":data}) : helper)))
+    + "\" class=\"card recipe-block\">\r\n"
     + ((stack1 = helpers["if"].call(alias2,(depth0 != null ? depth0.numMatches : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
     + "\r\n      <span class=\"text-left mb-0\">\r\n        "
-    + container.escapeExpression(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(alias2,{"name":"name","hash":{},"data":data}) : helper)))
+    + alias5(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias3),(typeof helper === alias4 ? helper.call(alias2,{"name":"name","hash":{},"data":data}) : helper)))
     + "\r\n      </span>\r\n      <div>\r\n"
     + ((stack1 = helpers["if"].call(alias2,(depth0 != null ? depth0.numMatches : depth0),{"name":"if","hash":{},"fn":container.program(5, data, 0),"inverse":container.program(7, data, 0),"data":data})) != null ? stack1 : "")
     + "      </div>\r\n    </div>\r\n\r\n"
@@ -175,6 +177,19 @@ templates['searchbar'] = template({"1":function(container,depth0,helpers,partial
     + "\" aria-describedby=\"ig-search-submit-btn\"\r\n            class=\"form-control border-0 bg-light\">\r\n    </div>\r\n</div>\r\n<div id=\"ig-search-error\" class=\"mt-1 justify-content-center\">\r\n    <p class=\"text-danger text-center font-weight-bold\">\r\n        \"<span id=\"error-ig-name\"></span>\" "
     + alias5(((helper = (helper = helpers.error || (depth0 != null ? depth0.error : depth0)) != null ? helper : alias3),(typeof helper === alias4 ? helper.call(alias2,{"name":"error","hash":{},"data":data}) : helper)))
     + "\r\n    </p>\r\n"
+    + ((stack1 = helpers["if"].call(alias2,(depth0 != null ? depth0.isAdmin : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
+    + "\r\n</div>";
+},"useData":true});
+templates['searchbarR'] = template({"1":function(container,depth0,helpers,partials,data) {
+    return "    <button type=\"button\" id=\"add-new-ingredient-btn\" class=\"btn btn-success btn-block\">Add\r\n            Ingredient&nbsp;&nbsp;<i class=\"fas fa-carrot fa-sm\"></i></button>\r\n            <p id=\"new-r-msg\" class=\"mt-3 text-info\" style=\"display: none\">\r\n                <span id=\"new-r-name\"></span> has been added!\r\n            </p>\r\n";
+},"compiler":[8,">= 4.3.0"],"main":function(container,depth0,helpers,partials,data) {
+    var stack1, helper, alias1=container.propertyIsEnumerable, alias2=depth0 != null ? depth0 : (container.nullContext || {}), alias3=container.hooks.helperMissing, alias4="function", alias5=container.escapeExpression;
+
+  return "<div id=\"r-search\" class=\"p-1 bg-light rounded rounded-pill shadow-sm mb-4\">\r\n    <div class=\"input-group\">\r\n        <div class=\"input-group-prepend\">\r\n            <button id=\"r-search-submit-btn\" type=\"submit\" class=\"btn btn-link text-warning\"><i\r\n                    class=\"fa fa-search\"></i></button>\r\n        </div>\r\n        <input id=\"r-search-input\" type=\"search\" placeholder=\""
+    + alias5(((helper = (helper = helpers.placeholder || (depth0 != null ? depth0.placeholder : depth0)) != null ? helper : alias3),(typeof helper === alias4 ? helper.call(alias2,{"name":"placeholder","hash":{},"data":data}) : helper)))
+    + "\" aria-describedby=\"r-search-submit-btn\"\r\n            class=\"form-control border-0 bg-light\">\r\n    </div>\r\n</div>\r\n<div id=\"r-search-error\" class=\"mt-1 justify-content-center\">\r\n    <p class=\"text-danger text-center font-weight-bold\">\r\n        \"<span id=\"error-r-name\"></span>\" "
+    + alias5(((helper = (helper = helpers.error || (depth0 != null ? depth0.error : depth0)) != null ? helper : alias3),(typeof helper === alias4 ? helper.call(alias2,{"name":"error","hash":{},"data":data}) : helper)))
+    + " \"<span id=\"error-r-cuisine\"></span>\" recipe!\r\n    </p>\r\n"
     + ((stack1 = helpers["if"].call(alias2,(depth0 != null ? depth0.isAdmin : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
     + "\r\n</div>";
 },"useData":true});

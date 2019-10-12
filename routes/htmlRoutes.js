@@ -5,6 +5,7 @@ var db = require("../models");
 var passport = require("passport");
 var moment = require("moment");
 var admin = require("../adminList.json");
+var cuisines = require("../data/cuisines.json");
 
 module.exports = function (app) {
   function titleCase(str) {
@@ -45,12 +46,14 @@ module.exports = function (app) {
       res.render("recipes", {
         username: userAccount.given_name,
         userToken: userAccount.sub,
+        cuisines: cuisines,
         layout: "main-auth"
       });
 
     } else {
       res.render("recipes", {
-        username: "User"
+        username: "User",
+        cuisines: cuisines
       });
     }
   });

@@ -1,0 +1,23 @@
+<div id="r-search" class="p-1 bg-light rounded rounded-pill shadow-sm mb-4">
+    <div class="input-group">
+        <div class="input-group-prepend">
+            <button id="r-search-submit-btn" type="submit" class="btn btn-link text-warning"><i
+                    class="fa fa-search"></i></button>
+        </div>
+        <input id="r-search-input" type="search" placeholder="{{placeholder}}" aria-describedby="r-search-submit-btn"
+            class="form-control border-0 bg-light">
+    </div>
+</div>
+<div id="r-search-error" class="mt-1 justify-content-center">
+    <p class="text-danger text-center font-weight-bold">
+        "<span id="error-r-name"></span>" {{error}} "<span id="error-r-cuisine"></span>" recipe!
+    </p>
+    {{#if isAdmin}}
+    <button type="button" id="add-new-ingredient-btn" class="btn btn-success btn-block">Add
+            Ingredient&nbsp;&nbsp;<i class="fas fa-carrot fa-sm"></i></button>
+            <p id="new-r-msg" class="mt-3 text-info" style="display: none">
+                <span id="new-r-name"></span> has been added!
+            </p>
+    {{/if}}
+
+</div>
