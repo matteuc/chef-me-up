@@ -310,7 +310,7 @@ $(document).ready(function () {
                             addRecipe();
                             formPrompt.modal('hide');
                         }
-                        
+
                         return false;
                     }
                 }],
@@ -386,30 +386,44 @@ $(document).ready(function () {
         var rQuery = $("#r-search-input").val().trim();
         var rCuisine = $("#recipe-cuisine").val();
         showAll();
-        
+
 
         $("#r-search-error").hide();
-    
-        for(r of rCatalog) {
+        $("#no-cuisine-msg").hide();
+
+
+        for (r of rCatalog) {
             var matchesQuery = (r.name.toLowerCase().includes(rQuery.toLowerCase())) || (rQuery == "");
             var matchesCuisine = (rCuisine == r.cuisine) || (rCuisine == "All")
-            
-            if ( !matchesQuery || !matchesCuisine ) {
+
+            if (!matchesQuery || !matchesCuisine) {
                 $(`.recipe-block[data-id="${r.id}"]`).hide();
             }
         }
 
-        if($(".recipe-block:visible").length == 0 && rQuery !== "") {
-            $("#error-r-cuisine").text(rCuisine);
-            $("#error-r-name").text(rQuery);
-            $("#r-search-error").show();
+        if ($(".recipe-block:visible").length == 0) {
+            if (rCuisine == "All") {
+                rCuisine = "";
+            } 
+
+            if (rQuery !== "") {
+                $("#error-r-cuisine").text(rCuisine);
+                $("#error-r-name").text(rQuery);
+                $("#r-search-error").show();
+            } else {
+                if(!ingredientOnly) {
+                    $("#error-cuisine-name").text(rCuisine);
+                    $("#no-cuisine-msg").show();
+
+                }
+            }
         }
     }
-    $("#r-search-input").on('input', function(){
+    $("#r-search-input").on('input', function () {
         updateRecipes()
     });
 
-    $("#recipe-cuisine").change( function(){
+    $("#recipe-cuisine").change(function () {
         updateRecipes()
     });
 
