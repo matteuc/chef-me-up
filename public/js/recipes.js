@@ -385,25 +385,16 @@ $(document).ready(function () {
     function updateRecipes() {
         var rQuery = $("#r-search-input").val().trim();
         var rCuisine = $("#recipe-cuisine").val();
-        if(!ingredientOnly) {
-            hideAll();
-        } else {
-            showAll();
-        }
+        showAll();
+        
 
         $("#r-search-error").hide();
-
-        if(rQuery == "") {
-            return;
-        } 
     
         for(r of rCatalog) {
-            var matchesQuery = r.name.toLowerCase().includes(rQuery.toLowerCase());
+            var matchesQuery = (r.name.toLowerCase().includes(rQuery.toLowerCase())) || (rQuery == "");
             var matchesCuisine = (rCuisine == r.cuisine) || (rCuisine == "All")
             
-            if( !ingredientOnly && matchesQuery && matchesCuisine ) {
-                $(`.recipe-block[data-id="${r.id}"]`).show();
-            } else if( ingredientOnly && (!matchesQuery || !matchesCuisine) ) {
+            if ( !matchesQuery || !matchesCuisine ) {
                 $(`.recipe-block[data-id="${r.id}"]`).hide();
             }
         }
