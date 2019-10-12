@@ -385,26 +385,30 @@ $(document).ready(function () {
     function updateRecipes() {
         var rQuery = $("#r-search-input").val().trim();
         var rCuisine = $("#recipe-cuisine").val();
-        hideAll();
+        if(!ingredientOnly) {
+            hideAll();
+        } else {
+            showAll();
+        }
+
         $("#r-search-error").hide();
 
-        if(rQuery == "" && rCuisine == "All") {
-            hideAll();
+        if(rQuery == "") {
             return;
         } 
-
-        
+    
         for(r of rCatalog) {
-            var containsQuery = r.name.toLowerCase().includes(rQuery.toLowerCase());
-            if( containsQuery && rCuisine == "All") {
+            var matchesQuery = r.name.toLowerCase().includes(rQuery.toLowerCase());
+            var matchesCuisine = (rCuisine == r.cuisine || rCuisine == "All")
+            
+            if( !ingredientsOnly && matchesQuery && matchesCuisine ) {
                 $(`.recipe-block[data-id="${r.id}"]`).show();
-            }
-            else if(containsQuery && r.cuisine == rCuisine) {
-                $(`.recipe-block[data-id="${r.id}"]`).show();
+            } else if( ingredientsOnly && !matchesQuery && matchesCuisine ) {
+                $(`.recipe-block[data-id="${r.id}"]`).hide();
             }
         }
 
-        if($(".recipe-block:visible").length == 0) {
+        if($(".recipe-block:visible").length == 0 && rQuery !== "") {
             $("#error-r-cuisine").text(rCuisine);
             $("#error-r-name").text(rQuery);
             $("#r-search-error").show();
