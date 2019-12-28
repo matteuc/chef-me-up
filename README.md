@@ -43,7 +43,7 @@ Sign in User - can save favorite recipes and add their own recipe
 
 ## Contributors
 
-* **Brittany Torres** - [torresB](https://github.com/torresB)
-* **Hanna Tefera** - [HannaBella](https://github.com/HannaBella)
-* **Matthew Chen** - [matteuc](https://github.com/matteuc)
-* **Walaa Alani** - [alaniwalaa](https://github.com/alaniwalaa)
+* **Brittany Torres** 
+* **Hanna Tefera**
+* **Matthew Chen** 
+* **Walaa Alani** 
