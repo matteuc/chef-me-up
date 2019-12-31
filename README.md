@@ -38,6 +38,7 @@ Sign in User - can save favorite recipes and add their own recipe
 * Passport and session - to authenticate user 
 * MySQL DB - to store data
 * Sequalizer ORM - to communicate to our database
+* Whisk API - to integrate shopping list to chefMEup
 * Heroku - to deploy app
 
 
