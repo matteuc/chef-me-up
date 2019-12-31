@@ -22,6 +22,9 @@ General user - add ingredients and get all recipes related to their ingredient/s
 
 <img src="https://github.com/matteuc/chef-me-up/blob/master/public/images/chefMEup.gif">
 
+Shopping ingredients
+
+<img src="https://github.com/matteuc/chef-me-up/blob/master/public/images/chefMEup.gif">
 
 Sign in User - can save favorite recipes and add their own recipe
 
