@@ -17,7 +17,7 @@ incorporate those ingredients. When user sign in, they can save their favorite r
 
 -If user want to save your favorites or add your own recipes, just sign in with your google account.
 
-## How to use
+## How to use the app
 General user - add ingredients and get all recipes related to their ingredient/s
 
 <img src="https://github.com/matteuc/chef-me-up/blob/master/public/images/chefMEup.gif">
@@ -44,12 +44,12 @@ User can shop ingredients online by using get ingredients feature of the app
 * Express - to setup middlewares and define routes
 * Passport and session - to authenticate user 
 * MySQL DB - to store data
-* Sequalizer ORM - to communicate to our database
+* Sequelize ORM - to communicate to our database
 * Whisk API - to integrate shopping list to chefMEup
 * Heroku - to deploy app
 
 
-## Contributors
+## Authors
 
 * **Brittany Torres** 
 * **Hanna Tefera**
